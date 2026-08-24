@@ -1,0 +1,85 @@
+{
+    "users": [
+        {
+            "name": "Kisan Demo",
+            "email": "demo@gmail.com",
+            "mobile": "9876543210",
+            "aadhar": "123456789012",
+            "address": "Indore, Madhya Pradesh",
+            "pwd": "demo123"
+        },
+        {
+            "name": "Utkarsh Mishra",
+            "email": "umishra.abn@gmail.com",
+            "mobile": "8765552392",
+            "aadhar": "573428266586",
+            "address": "Neel Godam, Dallapur Nijampur, Pahitipur",
+            "pwd": "10042001"
+        },
+        {
+            "name": "Ritesh Mishra",
+            "email": "ritesh@gmail.com",
+            "mobile": "9532816644",
+            "aadhar": "547246548534",
+            "address": "Gorakhpur, Uttar Pradesh",
+            "pwd": "12051999"
+        },
+        {
+            "name": "Kumkum Vishwakarma",
+            "email": "kumkumvishwakarma1445@gmail.com",
+            "mobile": "7223892849",
+            "aadhar": "462495756080",
+            "address": "Shankargarh, Khajuraho,MP",
+            "pwd": "26082003"
+        }
+    ],
+    "reports": [
+        {
+            "crop": "Rice",
+            "params": {
+                "n": 44,
+                "p": 185,
+                "k": 45,
+                "ph": 8,
+                "temperature": 44,
+                "humidity": 12,
+                "rainfall": 22
+            },
+            "recommendations": [
+                {
+                    "nutrient": "Nitrogen (N)",
+                    "status": "Low",
+                    "advice": "Add approx. <span>143.2 kg/ha of Urea</span> to meet requirements."
+                },
+                {
+                    "nutrient": "Potassium (K)",
+                    "status": "Low",
+                    "advice": "Apply <span>8.3 kg/ha of MOP (Muriate of Potash)</span>."
+                },
+                {
+                    "nutrient": "Soil pH",
+                    "status": "Alkaline",
+                    "advice": "Soil is too alkaline for Rice. Apply <span>Gypsum</span> or sulfur to lower pH."
+                }
+            ],
+            "date": "04/05/2026, 15:59:25",
+            "id": 1777890565562,
+            "email": "umishra.abn@gmail.com",
+            "_id": "1"
+        }
+    ],
+    "schemes": [],
+    "drone_bookings": [
+        {
+            "farmerName": "Utkarsh Mishra",
+            "mobile": "8765552392",
+            "acres": "2",
+            "crop": "Rice",
+            "address": "Dr. Harisingh Gour Vishwavidyalaya,Sagar,MP",
+            "date": "2026-05-21",
+            "status": "Approved",
+            "email": "umishra.abn@gmail.com",
+            "_id": "1"
+        }
+    ]
+}

@@ -1,0 +1,501 @@
+image_id,crop,disease_label,severity,solution
+img_0.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_1.jpg,Wheat,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_2.jpg,Tomato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_3.jpg,Corn,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_4.jpg,Corn,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_5.jpg,Wheat,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_6.jpg,Apple,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_7.jpg,Potato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_8.jpg,Apple,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_9.jpg,Wheat,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_10.jpg,Tomato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_11.jpg,Apple,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_12.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_13.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_14.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_15.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_16.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_17.jpg,Tomato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_18.jpg,Tomato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_19.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_20.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_21.jpg,Wheat,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_22.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_23.jpg,Corn,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_24.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_25.jpg,Apple,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_26.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_27.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_28.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_29.jpg,Corn,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_30.jpg,Corn,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_31.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_32.jpg,Corn,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_33.jpg,Corn,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_34.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_35.jpg,Apple,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_36.jpg,Corn,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_37.jpg,Corn,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_38.jpg,Corn,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_39.jpg,Potato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_40.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_41.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_42.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_43.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_44.jpg,Apple,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_45.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_46.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_47.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_48.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_49.jpg,Tomato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_50.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_51.jpg,Tomato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_52.jpg,Apple,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_53.jpg,Corn,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_54.jpg,Tomato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_55.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_56.jpg,Corn,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_57.jpg,Potato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_58.jpg,Potato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_59.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_60.jpg,Potato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_61.jpg,Wheat,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_62.jpg,Potato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_63.jpg,Potato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_64.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_65.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_66.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_67.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_68.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_69.jpg,Apple,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_70.jpg,Apple,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_71.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_72.jpg,Apple,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_73.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_74.jpg,Tomato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_75.jpg,Corn,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_76.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_77.jpg,Apple,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_78.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_79.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_80.jpg,Tomato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_81.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_82.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_83.jpg,Corn,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_84.jpg,Wheat,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_85.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_86.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_87.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_88.jpg,Potato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_89.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_90.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_91.jpg,Apple,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_92.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_93.jpg,Apple,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_94.jpg,Apple,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_95.jpg,Wheat,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_96.jpg,Tomato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_97.jpg,Tomato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_98.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_99.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_100.jpg,Wheat,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_101.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_102.jpg,Wheat,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_103.jpg,Potato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_104.jpg,Apple,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_105.jpg,Tomato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_106.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_107.jpg,Wheat,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_108.jpg,Potato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_109.jpg,Potato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_110.jpg,Potato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_111.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_112.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_113.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_114.jpg,Corn,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_115.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_116.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_117.jpg,Wheat,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_118.jpg,Tomato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_119.jpg,Tomato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_120.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_121.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_122.jpg,Corn,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_123.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_124.jpg,Potato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_125.jpg,Wheat,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_126.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_127.jpg,Corn,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_128.jpg,Corn,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_129.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_130.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_131.jpg,Potato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_132.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_133.jpg,Apple,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_134.jpg,Apple,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_135.jpg,Potato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_136.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_137.jpg,Corn,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_138.jpg,Tomato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_139.jpg,Corn,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_140.jpg,Corn,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_141.jpg,Tomato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_142.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_143.jpg,Corn,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_144.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_145.jpg,Wheat,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_146.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_147.jpg,Wheat,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_148.jpg,Potato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_149.jpg,Corn,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_150.jpg,Corn,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_151.jpg,Apple,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_152.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_153.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_154.jpg,Tomato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_155.jpg,Potato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_156.jpg,Corn,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_157.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_158.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_159.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_160.jpg,Apple,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_161.jpg,Corn,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_162.jpg,Tomato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_163.jpg,Potato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_164.jpg,Corn,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_165.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_166.jpg,Potato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_167.jpg,Apple,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_168.jpg,Potato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_169.jpg,Corn,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_170.jpg,Corn,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_171.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_172.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_173.jpg,Potato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_174.jpg,Apple,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_175.jpg,Corn,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_176.jpg,Corn,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_177.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_178.jpg,Corn,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_179.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_180.jpg,Wheat,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_181.jpg,Potato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_182.jpg,Tomato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_183.jpg,Corn,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_184.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_185.jpg,Apple,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_186.jpg,Tomato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_187.jpg,Apple,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_188.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_189.jpg,Wheat,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_190.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_191.jpg,Wheat,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_192.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_193.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_194.jpg,Apple,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_195.jpg,Potato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_196.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_197.jpg,Corn,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_198.jpg,Apple,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_199.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_200.jpg,Corn,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_201.jpg,Corn,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_202.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_203.jpg,Tomato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_204.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_205.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_206.jpg,Potato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_207.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_208.jpg,Potato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_209.jpg,Apple,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_210.jpg,Potato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_211.jpg,Potato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_212.jpg,Apple,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_213.jpg,Wheat,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_214.jpg,Corn,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_215.jpg,Tomato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_216.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_217.jpg,Potato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_218.jpg,Corn,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_219.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_220.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_221.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_222.jpg,Apple,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_223.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_224.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_225.jpg,Potato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_226.jpg,Corn,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_227.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_228.jpg,Wheat,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_229.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_230.jpg,Tomato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_231.jpg,Apple,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_232.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_233.jpg,Wheat,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_234.jpg,Potato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_235.jpg,Wheat,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_236.jpg,Apple,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_237.jpg,Potato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_238.jpg,Corn,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_239.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_240.jpg,Corn,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_241.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_242.jpg,Tomato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_243.jpg,Corn,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_244.jpg,Apple,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_245.jpg,Corn,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_246.jpg,Corn,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_247.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_248.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_249.jpg,Potato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_250.jpg,Potato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_251.jpg,Tomato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_252.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_253.jpg,Tomato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_254.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_255.jpg,Tomato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_256.jpg,Wheat,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_257.jpg,Tomato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_258.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_259.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_260.jpg,Tomato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_261.jpg,Corn,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_262.jpg,Potato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_263.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_264.jpg,Apple,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_265.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_266.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_267.jpg,Corn,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_268.jpg,Apple,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_269.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_270.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_271.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_272.jpg,Tomato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_273.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_274.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_275.jpg,Potato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_276.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_277.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_278.jpg,Corn,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_279.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_280.jpg,Wheat,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_281.jpg,Corn,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_282.jpg,Potato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_283.jpg,Potato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_284.jpg,Corn,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_285.jpg,Wheat,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_286.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_287.jpg,Tomato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_288.jpg,Tomato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_289.jpg,Potato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_290.jpg,Tomato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_291.jpg,Corn,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_292.jpg,Potato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_293.jpg,Wheat,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_294.jpg,Potato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_295.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_296.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_297.jpg,Tomato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_298.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_299.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_300.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_301.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_302.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_303.jpg,Tomato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_304.jpg,Apple,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_305.jpg,Corn,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_306.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_307.jpg,Tomato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_308.jpg,Corn,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_309.jpg,Tomato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_310.jpg,Corn,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_311.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_312.jpg,Apple,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_313.jpg,Tomato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_314.jpg,Tomato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_315.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_316.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_317.jpg,Tomato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_318.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_319.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_320.jpg,Tomato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_321.jpg,Apple,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_322.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_323.jpg,Potato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_324.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_325.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_326.jpg,Apple,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_327.jpg,Apple,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_328.jpg,Potato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_329.jpg,Potato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_330.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_331.jpg,Tomato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_332.jpg,Tomato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_333.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_334.jpg,Tomato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_335.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_336.jpg,Wheat,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_337.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_338.jpg,Apple,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_339.jpg,Potato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_340.jpg,Apple,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_341.jpg,Potato,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_342.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_343.jpg,Wheat,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_344.jpg,Apple,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_345.jpg,Corn,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_346.jpg,Corn,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_347.jpg,Potato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_348.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_349.jpg,Wheat,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_350.jpg,Apple,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_351.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_352.jpg,Corn,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_353.jpg,Apple,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_354.jpg,Potato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_355.jpg,Apple,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_356.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_357.jpg,Corn,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_358.jpg,Apple,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_359.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_360.jpg,Potato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_361.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_362.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_363.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_364.jpg,Apple,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_365.jpg,Potato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_366.jpg,Potato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_367.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_368.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_369.jpg,Apple,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_370.jpg,Apple,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_371.jpg,Potato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_372.jpg,Apple,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_373.jpg,Corn,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_374.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_375.jpg,Potato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_376.jpg,Tomato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_377.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_378.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_379.jpg,Corn,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_380.jpg,Apple,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_381.jpg,Corn,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_382.jpg,Apple,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_383.jpg,Apple,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_384.jpg,Apple,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_385.jpg,Potato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_386.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_387.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_388.jpg,Tomato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_389.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_390.jpg,Corn,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_391.jpg,Potato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_392.jpg,Potato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_393.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_394.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_395.jpg,Wheat,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_396.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_397.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_398.jpg,Apple,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_399.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_400.jpg,Tomato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_401.jpg,Wheat,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_402.jpg,Potato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_403.jpg,Corn,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_404.jpg,Tomato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_405.jpg,Corn,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_406.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_407.jpg,Wheat,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_408.jpg,Apple,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_409.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_410.jpg,Wheat,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_411.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_412.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_413.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_414.jpg,Potato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_415.jpg,Wheat,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_416.jpg,Potato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_417.jpg,Tomato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_418.jpg,Corn,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_419.jpg,Tomato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_420.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_421.jpg,Wheat,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_422.jpg,Potato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_423.jpg,Apple,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_424.jpg,Apple,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_425.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_426.jpg,Wheat,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_427.jpg,Corn,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_428.jpg,Wheat,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_429.jpg,Wheat,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_430.jpg,Corn,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_431.jpg,Tomato,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_432.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_433.jpg,Corn,Healthy,Medium,Apply recommended fungicide and remove infected leaves.
+img_434.jpg,Corn,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_435.jpg,Tomato,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_436.jpg,Tomato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_437.jpg,Tomato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_438.jpg,Tomato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_439.jpg,Potato,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_440.jpg,Corn,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_441.jpg,Apple,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_442.jpg,Potato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_443.jpg,Apple,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_444.jpg,Apple,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_445.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_446.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_447.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_448.jpg,Corn,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_449.jpg,Tomato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_450.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_451.jpg,Apple,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_452.jpg,Tomato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_453.jpg,Corn,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_454.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_455.jpg,Apple,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_456.jpg,Tomato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_457.jpg,Apple,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_458.jpg,Corn,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_459.jpg,Potato,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_460.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_461.jpg,Wheat,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_462.jpg,Potato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_463.jpg,Tomato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_464.jpg,Wheat,Leaf Spot,Low,Apply recommended fungicide and remove infected leaves.
+img_465.jpg,Tomato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_466.jpg,Potato,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_467.jpg,Potato,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_468.jpg,Corn,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_469.jpg,Tomato,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_470.jpg,Apple,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_471.jpg,Corn,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_472.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_473.jpg,Wheat,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_474.jpg,Tomato,Leaf Spot,High,Apply recommended fungicide and remove infected leaves.
+img_475.jpg,Wheat,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_476.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_477.jpg,Potato,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_478.jpg,Apple,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_479.jpg,Tomato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_480.jpg,Apple,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_481.jpg,Wheat,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_482.jpg,Potato,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_483.jpg,Apple,Late Blight,High,Apply recommended fungicide and remove infected leaves.
+img_484.jpg,Corn,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_485.jpg,Wheat,Late Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_486.jpg,Corn,Healthy,High,Apply recommended fungicide and remove infected leaves.
+img_487.jpg,Apple,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_488.jpg,Apple,Early Blight,Low,Apply recommended fungicide and remove infected leaves.
+img_489.jpg,Apple,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_490.jpg,Tomato,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_491.jpg,Wheat,Early Blight,High,Apply recommended fungicide and remove infected leaves.
+img_492.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_493.jpg,Wheat,Leaf Spot,Medium,Apply recommended fungicide and remove infected leaves.
+img_494.jpg,Tomato,Yellow Rust,Medium,Apply recommended fungicide and remove infected leaves.
+img_495.jpg,Apple,Late Blight,Medium,Apply recommended fungicide and remove infected leaves.
+img_496.jpg,Apple,Yellow Rust,High,Apply recommended fungicide and remove infected leaves.
+img_497.jpg,Corn,Yellow Rust,Low,Apply recommended fungicide and remove infected leaves.
+img_498.jpg,Tomato,Healthy,Low,Apply recommended fungicide and remove infected leaves.
+img_499.jpg,Potato,Early Blight,Medium,Apply recommended fungicide and remove infected leaves.
