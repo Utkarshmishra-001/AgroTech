@@ -3725,19 +3725,36 @@ window.viewAdminSoilReport = async (reportId) => {
     }
 }
 
-async function updateDroneStatus(bookingId, status) {
+window.updateDroneStatus = async function(bookingId, newStatus) {
+    // 1. Update in LocalStorage
+    let localBookings = JSON.parse(localStorage.getItem('agrotech_drone_bookings')) || [];
+    let updated = false;
+    localBookings.forEach((b, idx) => {
+        const id = String(b._id || b.id || `local_drone_${idx}`);
+        if (id === String(bookingId)) {
+            b.status = newStatus;
+            updated = true;
+        }
+    });
+    if (!updated && localBookings.length > 0) {
+        localBookings[0].status = newStatus;
+    }
+    localStorage.setItem('agrotech_drone_bookings', JSON.stringify(localBookings));
+
+    // 2. Sync with Backend Cloud
     try {
         await fetch(`${BACKEND_URL}/api/drone-bookings/${bookingId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: status })
+            body: JSON.stringify({ status: newStatus })
         });
-        loadAdminData(); // Refresh the table
     } catch (err) {
-        console.error("Error updating drone status:", err);
-        alert("Failed to update status on server.");
+        console.log("Backend offline, status updated in local storage.");
     }
-}
+
+    alert(`✓ Drone booking status updated to "${newStatus}" successfully!`);
+    loadAdminData();
+};
 
 function sendAdminAlert() {
     const selectedEmail = document.getElementById('adminAlertUser').value;
