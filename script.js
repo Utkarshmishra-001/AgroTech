@@ -1,4 +1,71 @@
 
+// Client-Side Canvas Visual Spectrum & Color Pattern Analyzer for Plant Leaves
+function analyzeLeafImagePixels(imgElement) {
+    try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 100;
+        canvas.height = 100;
+        ctx.drawImage(imgElement, 0, 0, 100, 100);
+        const imgData = ctx.getImageData(0, 0, 100, 100);
+        const data = imgData.data;
+
+        let rustOrangeCount = 0;
+        let darkNecroticCount = 0;
+        let whitePowderyCount = 0;
+        let yellowChlorosisCount = 0;
+        let healthyGreenCount = 0;
+        let totalPixels = data.length / 4;
+
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i+1];
+            const b = data[i+2];
+
+            // Rust / Orange / Brown pustules (Typical in Wheat Rust, Soybean Rust)
+            if (r > 130 && r > g && g > b && (r - b) > 50 && r > 100 && b < 90) {
+                rustOrangeCount++;
+            }
+            // Dark necrotic / Black rot / Smut / Blight spots
+            else if (r < 80 && g < 80 && b < 80) {
+                darkNecroticCount++;
+            }
+            // White / Powdery mildew / White rust
+            else if (r > 180 && g > 180 && b > 180 && Math.abs(r-g) < 25 && Math.abs(g-b) < 25) {
+                whitePowderyCount++;
+            }
+            // Yellowing / Chlorosis / Mosaic / Blotch
+            else if (r > 140 && g > 140 && b < 100 && Math.abs(r-g) < 40) {
+                yellowChlorosisCount++;
+            }
+            // Healthy green foliage
+            else if (g > r && g > b && g > 70) {
+                healthyGreenCount++;
+            }
+        }
+
+        const rustPercent = (rustOrangeCount / totalPixels) * 100;
+        const necroticPercent = (darkNecroticCount / totalPixels) * 100;
+        const whitePercent = (whitePowderyCount / totalPixels) * 100;
+        const yellowPercent = (yellowChlorosisCount / totalPixels) * 100;
+
+        return {
+            rust: rustPercent,
+            necrotic: necroticPercent,
+            white: whitePercent,
+            yellow: yellowPercent,
+            isRustDominant: rustPercent > 1.5,
+            isNecroticDominant: necroticPercent > 8,
+            isWhiteDominant: whitePercent > 5,
+            isYellowDominant: yellowPercent > 6
+        };
+    } catch (e) {
+        console.warn("Canvas pixel analysis failed (CORS or local):", e);
+        return { isRustDominant: false, isNecroticDominant: false, isWhiteDominant: false, isYellowDominant: false };
+    }
+}
+
+
 // Gemini API Key Management
 function getActiveGeminiKey() {
     return localStorage.getItem('agrotech_gemini_api_key') || "";

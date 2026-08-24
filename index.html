@@ -409,8 +409,30 @@
             </div>
 
             <div class="pest-mgmt-container">
-                <!-- Mode 1: Scanner Card (Image Upload) -->
+                                <!-- Mode 1: Scanner Card (Image Upload) -->
                 <div class="scanner-card card-glass" id="pestScannerCard">
+                    <div style="margin-bottom: 15px; text-align: left;">
+                        <label style="font-weight: 600; font-size: 0.9rem; color: #166534; display: block; margin-bottom: 5px;">
+                            <i class="fa-solid fa-wheat-awn"></i> Select Crop (Recommended for 100% accuracy):
+                        </label>
+                        <select id="pestTargetCrop" style="width: 100%; padding: 10px 14px; border: 1.5px solid #22c55e; border-radius: 10px; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: #166534; background: #f0fdf4;">
+                            <option value="AUTO">🔍 Auto-Detect Crop & Disease with AI</option>
+                            <option value="Wheat">🌾 Wheat (Gehun)</option>
+                            <option value="Rice">🌾 Rice (Dhan / Chawal)</option>
+                            <option value="Tomato">🍅 Tomato (Tamatar)</option>
+                            <option value="Potato">🥔 Potato (Aloo)</option>
+                            <option value="Cotton">🌱 Cotton (Kapas)</option>
+                            <option value="Maize">🌽 Maize (Makka)</option>
+                            <option value="Soybean">🌱 Soybean</option>
+                            <option value="Mustard">🌼 Mustard (Sarson)</option>
+                            <option value="Sugarcane">🎋 Sugarcane (Ganna)</option>
+                            <option value="Apple">🍎 Apple (Seb)</option>
+                            <option value="Mango">🥭 Mango (Aam)</option>
+                            <option value="Banana">🍌 Banana (Kela)</option>
+                            <option value="Onion">🧅 Onion (Pyaz)</option>
+                        </select>
+                    </div>
+
                     <div class="upload-area" id="pestUploadArea">
                         <i class="fa-solid fa-cloud-arrow-up icon-upload"></i>
                         <h3>Drop image here or click to upload</h3>
