@@ -1,4 +1,564 @@
 
+// Gemini API Key Management
+function getActiveGeminiKey() {
+    return localStorage.getItem('agrotech_gemini_api_key') || "";
+}
+
+function updateApiKeyUi() {
+    const key = getActiveGeminiKey();
+    const label = document.getElementById('apiKeyStatusLabel');
+    if (label) {
+        label.textContent = key ? "Gemini Key: Active ✓" : "Set Gemini Key (Free)";
+    }
+}
+
+function openApiKeyModal() {
+    const modal = document.getElementById('apiKeyModal');
+    const input = document.getElementById('inputGeminiApiKey');
+    if (input) input.value = getActiveGeminiKey();
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeApiKeyModal() {
+    const modal = document.getElementById('apiKeyModal');
+    if (modal) modal.style.display = 'none';
+}
+
+function saveGeminiApiKey() {
+    const input = document.getElementById('inputGeminiApiKey');
+    const key = input ? input.value.trim() : "";
+    if (!key) {
+        alert("Please enter a valid Google Gemini API Key.");
+        return;
+    }
+    localStorage.setItem('agrotech_gemini_api_key', key);
+    updateApiKeyUi();
+    closeApiKeyModal();
+    alert("✓ Google Gemini API Key saved successfully! Live AI image diagnosis and AgroBot are now active.");
+}
+
+function clearGeminiApiKey() {
+    localStorage.removeItem('agrotech_gemini_api_key');
+    updateApiKeyUi();
+    closeApiKeyModal();
+    alert("Gemini API Key removed. Standalone & ChatGPT Paste modes will be used.");
+}
+
+// Diagnosis Mode Switcher
+function switchPestMode(mode) {
+    const scannerCard = document.getElementById('pestScannerCard');
+    const chatGptCard = document.getElementById('pestChatGptCard');
+    const dbCard = document.getElementById('pestDatabaseCard');
+    const resultPanel = document.getElementById('pestResultPanel');
+
+    if (resultPanel) resultPanel.classList.add('hidden');
+
+    document.querySelectorAll('.pest-tab-btn').forEach(b => {
+        b.style.background = 'white';
+        b.style.color = '#334155';
+        b.style.borderColor = '#cbd5e1';
+    });
+
+    if (mode === 'photo') {
+        if (scannerCard) scannerCard.classList.remove('hidden');
+        if (chatGptCard) chatGptCard.classList.add('hidden');
+        if (dbCard) dbCard.classList.add('hidden');
+        const btn = document.getElementById('tabBtnPhoto');
+        if (btn) { btn.style.background = '#22c55e'; btn.style.color = 'white'; btn.style.borderColor = '#22c55e'; }
+    } else if (mode === 'chatgpt') {
+        if (scannerCard) scannerCard.classList.add('hidden');
+        if (chatGptCard) chatGptCard.classList.remove('hidden');
+        if (dbCard) dbCard.classList.add('hidden');
+        const btn = document.getElementById('tabBtnChatGpt');
+        if (btn) { btn.style.background = '#22c55e'; btn.style.color = 'white'; btn.style.borderColor = '#22c55e'; }
+    } else if (mode === 'database') {
+        if (scannerCard) scannerCard.classList.add('hidden');
+        if (chatGptCard) chatGptCard.classList.add('hidden');
+        if (dbCard) dbCard.classList.remove('hidden');
+        const btn = document.getElementById('tabBtnDatabase');
+        if (btn) { btn.style.background = '#22c55e'; btn.style.color = 'white'; btn.style.borderColor = '#22c55e'; }
+        populateDbCropSelect();
+    }
+}
+
+function resetPestDiagnosis() {
+    const resultPanel = document.getElementById('pestResultPanel');
+    if (resultPanel) resultPanel.classList.add('hidden');
+    const previewArea = document.getElementById('pestPreviewArea');
+    const uploadArea = document.getElementById('pestUploadArea');
+    if (previewArea) previewArea.classList.add('hidden');
+    if (uploadArea) uploadArea.classList.remove('hidden');
+    const imgInput = document.getElementById('pestImageInput');
+    if (imgInput) imgInput.value = '';
+    const rawInput = document.getElementById('chatGptRawInput');
+    if (rawInput) rawInput.value = '';
+}
+
+
+// ICAR Verified Plant Pathology & Disease Database
+const plantPathologyDb = {
+    "Wheat": [
+        {
+            name: "Yellow Rust (Puccinia striiformis)",
+            info: "Fungal disease causing linear rows of yellow-orange powdery stripes on wheat leaves, hindering grain development.",
+            severity: "Critical",
+            solutions: [
+                "Spray Propiconazole 25% EC (Tilt) @ 500 ml/ha in 500L water.",
+                "Sow rust-resistant varieties such as HD-3086, DBW-187, or PBW-725.",
+                "Avoid excess nitrogen fertilizer during peak tillering stage.",
+                "Scout fields weekly during cool, moist weather (Dec-Feb)."
+            ]
+        },
+        {
+            name: "Brown / Leaf Rust (Puccinia triticina)",
+            info: "Scattered reddish-brown round pustules predominantly on leaf blades, causing premature leaf drying.",
+            severity: "Moderate",
+            solutions: [
+                "Apply Tebuconazole 25.9% EC @ 1 ml/liter of water.",
+                "Ensure balanced N-P-K fertilizer application with adequate potash.",
+                "Destroy volunteer wheat seedlings and weed hosts."
+            ]
+        },
+        {
+            name: "Loose Smut (Ustilago tritici)",
+            info: "Fungus replaces entire wheat grain head/spikelets with black powdery masses of spores.",
+            severity: "High Risk",
+            solutions: [
+                "Treat seed with Carboxin 37.5% + Thiram 37.5% (Vitavax Power) @ 2-3 g/kg seed before sowing.",
+                "Rogue out and burn infected heads in sealed polythene bags to prevent spore dispersal.",
+                "Use certified disease-free foundation seed."
+            ]
+        },
+        {
+            name: "Wheat Aphids (Rhopalosiphum padi)",
+            info: "Greenish-black colonies sucking sap from ears and tender leaves, secreting sticky honeydew.",
+            severity: "Moderate",
+            solutions: [
+                "Spray Imidacloprid 17.8% SL @ 0.5 ml/liter or Thiamethoxam 25% WG @ 0.2 g/liter.",
+                "Conserve natural predators like Coccinellid ladybird beetles.",
+                "Use yellow sticky traps @ 10-15 traps/acre."
+            ]
+        }
+    ],
+    "Rice": [
+        {
+            name: "Bacterial Leaf Blight (Xanthomonas oryzae)",
+            info: "Water-soaked yellowish-white wavy lesions starting from leaf tips and margins, progressing downwards.",
+            severity: "Critical",
+            solutions: [
+                "Spray Copper Oxychloride 50% WP @ 2.5 g/L + Streptocycline @ 0.1 g/L.",
+                "Drain excess standing water from field for 3-4 days.",
+                "Avoid top-dressing nitrogen when disease is active; apply extra Potash."
+            ]
+        },
+        {
+            name: "Rice Blast (Magnaporthe oryzae)",
+            info: "Diamond/spindle-shaped lesions with greyish center and dark brown border on leaves and neck nodes.",
+            severity: "Critical",
+            solutions: [
+                "Foliar spray of Tricyclazole 75% WP @ 0.6 g/liter or Isoprothiolane 40% EC @ 1.5 ml/L.",
+                "Avoid excess urea; split nitrogen doses into 3-4 applications.",
+                "Use resistant varieties (IR-64, Pusa Basmati 1121)."
+            ]
+        },
+        {
+            name: "False Smut (Ustilaginoidea virens)",
+            info: "Individual grains transform into large greenish-yellow velvet spore balls that turn black.",
+            severity: "Moderate",
+            solutions: [
+                "Spray Propiconazole 25% EC @ 1 ml/L or Copper Hydroxide at boot leaf stage.",
+                "Collect and burn smutted panicles carefully.",
+                "Avoid late transplanting and high nitrogen application."
+            ]
+        },
+        {
+            name: "Yellow Stem Borer (Scirpophaga incertulas)",
+            info: "Larvae bore into stem causing 'Dead Heart' in vegetative stage and 'White Ear' in reproductive stage.",
+            severity: "High Risk",
+            solutions: [
+                "Apply Chlorantraniliprole 0.4% GR (Ferterra) @ 4 kg/acre or Cartap Hydrochloride 4G @ 8 kg/acre.",
+                "Install Pheromone traps with Scirpo lure @ 8 traps/acre.",
+                "Clip seedling leaf tips before transplanting to remove egg masses."
+            ]
+        }
+    ],
+    "Tomato": [
+        {
+            name: "Early Blight (Alternaria solani)",
+            info: "Concentric dark brown rings ('target board' pattern) on older lower leaves, causing yellowing and defoliation.",
+            severity: "Moderate",
+            solutions: [
+                "Spray Mancozeb 75% WP @ 2.5 g/L or Azoxystrobin + Difenoconazole @ 1 ml/L.",
+                "Mulch soil around tomato base to prevent fungal spores splashing from soil.",
+                "Remove and burn lower infected leaves."
+            ]
+        },
+        {
+            name: "Late Blight (Phytophthora infestans)",
+            info: "Water-soaked irregular pale green lesions turning dark brown/black with white fluffy mold under humid conditions.",
+            severity: "Critical",
+            solutions: [
+                "Apply Metalaxyl 8% + Mancozeb 64% (Ridomil Gold) @ 2.5 g/liter of water immediately.",
+                "Avoid overhead sprinkler irrigation; maintain wide row spacing.",
+                "Destroy infected tomato plants promptly."
+            ]
+        },
+        {
+            name: "Tomato Leaf Curl Virus (ToLCV)",
+            info: "Severe upward leaf curling, puckering, stunted bushy growth, and failure to set fruit.",
+            severity: "Critical",
+            solutions: [
+                "Control vector Whiteflies using Acetamiprid 20% SP @ 0.5 g/L or Diafenthiuron 50% WP.",
+                "Install yellow sticky cards throughout the greenhouse/field.",
+                "Use 50-mesh nylon insect-proof netting in nurseries."
+            ]
+        }
+    ],
+    "Potato": [
+        {
+            name: "Late Blight (Phytophthora infestans)",
+            info: "Brown-black necrotic blotches on leaf tips and margins spreading rapidly, causing rot of potato tubers.",
+            severity: "Critical",
+            solutions: [
+                "Prophylactic spray of Mancozeb 75% WP @ 2.5 g/L followed by Cymoxanil 8% + Mancozeb 64% @ 3 g/L.",
+                "Do proper earthing-up to prevent tuber infection from surface water.",
+                "Destroy haulms (stems) 10-12 days prior to harvest."
+            ]
+        },
+        {
+            name: "Black Scurf (Rhizoctonia solani)",
+            info: "Hard black encrustations (sclerotia) resembling soil particles adhering firmly to potato tuber skin.",
+            severity: "Moderate",
+            solutions: [
+                "Tuber dip in Boric acid 3% solution for 30 minutes before planting.",
+                "Apply Trichoderma viride enriched FYM to soil during field preparation.",
+                "Practice 3-year crop rotation avoiding solanaceous crops."
+            ]
+        }
+    ],
+    "Cotton": [
+        {
+            name: "Pink Bollworm (Pectinophora gossypiella)",
+            info: "Larvae bore into flower buds causing 'Rosette flower' and tunnel inside green bolls damaging lint and seeds.",
+            severity: "Critical",
+            solutions: [
+                "Spray Emamectin Benzoate 5% SG @ 0.5 g/L or Chlorantraniliprole 18.5% SC @ 0.3 ml/L.",
+                "Install Pheromone traps (Pectino lure) @ 5 traps/acre for monitoring.",
+                "Destroy crop residues and do not extend crop beyond 150-160 days."
+            ]
+        },
+        {
+            name: "Whitefly (Bemisia tabaci)",
+            info: "Small white winged insects sucking sap from undersides of leaves, causing leaf curl virus and black sooty mold.",
+            severity: "High Risk",
+            solutions: [
+                "Spray Pyriproxyfen 10% + Bifenthrin 10% EC @ 2 ml/L or Spiromesifen 22.9% SC @ 1 ml/L.",
+                "Install yellow sticky traps @ 20-25 per acre.",
+                "Avoid synthetic pyrethroids which cause resurgence."
+            ]
+        }
+    ],
+    "Maize": [
+        {
+            name: "Fall Armyworm (Spodoptera frugiperda)",
+            info: "Aggressive caterpillar feeding inside maize whorls producing ragged leaf holes and大量 sawdust-like frass.",
+            severity: "Critical",
+            solutions: [
+                "Whorl application of Chlorantraniliprole 18.5% SC @ 0.4 ml/L or Spinetoram 11.7% SC @ 0.5 ml/L.",
+                "Apply sand + lime mixture (9:1) inside leaf whorls to kill young larvae organically.",
+                "Install FAW pheromone traps."
+            ]
+        }
+    ],
+    "Soybean": [
+        {
+            name: "Soybean Rust (Phakopsora pachyrhizi)",
+            info: "Tiny tan-to-brown lesions on underside of leaves with raised pustules, leading to premature defoliation.",
+            severity: "High Risk",
+            solutions: [
+                "Foliar spray of Hexaconazole 5% EC @ 1 ml/L or Propiconazole 25% EC @ 1 ml/L.",
+                "Plant early in the season to escape peak moisture infection.",
+                "Ensure proper row-to-row spacing (45 cm) for sunlight penetration."
+            ]
+        }
+    ],
+    "Mustard": [
+        {
+            name: "White Rust (Albugo candida)",
+            info: "Prominent chalky-white blisters/pustules on undersides of mustard leaves and floral malformation (Staghead).",
+            severity: "Moderate",
+            solutions: [
+                "Spray Metalaxyl 8% + Mancozeb 64% (Ridomil MZ) @ 2 g/liter.",
+                "Sow mustard between 10th - 25th October to escape peak disease.",
+                "Use certified disease-resistant seeds."
+            ]
+        }
+    ],
+    "Sugarcane": [
+        {
+            name: "Red Rot (Colletotrichum falcatum)",
+            info: "Leaves turn pale yellow and dry; splitting the sugarcane stalk reveals internal red tissue with distinct white cross-bands.",
+            severity: "Critical",
+            solutions: [
+                "Treat seed setts with Carbendazim 50% WP (1 g/L) for 15 minutes before planting.",
+                "Adopt setts from disease-free certified nursery crops.",
+                "Rogue out and burn affected clumps; avoid ratoon cropping in infected fields."
+            ]
+        }
+    ],
+    "Apple": [
+        {
+            name: "Apple Scab (Venturia inaequalis)",
+            info: "Olive-green velvety spots turning black and corky on leaves and fruit, causing fruit cracking and deformities.",
+            severity: "High Risk",
+            solutions: [
+                "Spray Difenoconazole 25% EC @ 0.3 ml/L or Mancozeb 75% WP @ 2.5 g/L at pink bud stage.",
+                "Spray Urea 5% on fallen leaves in autumn to accelerate fungal decomposition.",
+                "Prune trees to improve canopy aeration."
+            ]
+        }
+    ],
+    "Mango": [
+        {
+            name: "Mango Anthracnose (Colletotrichum gloeosporioides)",
+            info: "Dark brown necrotic leaf spots, blossom blight causing flower drop, and black tear-stain rot on maturing mangoes.",
+            severity: "Moderate",
+            solutions: [
+                "Spray Carbendazim 50% WP @ 1 g/L or Copper Oxychloride 50% WP @ 3 g/L.",
+                "Prune overcrowded and diseased branches post-harvest.",
+                "Hot water dip treatment of fruits at 52°C for 10 minutes post-harvest."
+            ]
+        }
+    ],
+    "Banana": [
+        {
+            name: "Panama Wilt (Fusarium oxysporum f. sp. cubense)",
+            info: "Yellowing and buckling of lower leaves along the petiole, with reddish-brown discoloration inside pseudo-stem vascular bundles.",
+            severity: "Critical",
+            solutions: [
+                "Drench soil with Carbendazim 50% WP @ 2 g/L + apply Trichoderma viride (50g/plant) with neem cake.",
+                "Use tissue-cultured disease-free plantlets (Grand Naine).",
+                "Maintain good soil drainage and avoid using flood irrigation from infected plots."
+            ]
+        }
+    ],
+    "Onion": [
+        {
+            name: "Purple Blotch (Alternaria porri)",
+            info: "Small sunken water-soaked spots on onion leaves developing distinct purple-brown centers with yellow halos.",
+            severity: "Moderate",
+            solutions: [
+                "Spray Mancozeb 75% WP @ 2.5 g/L + Sticker (0.5 ml/L) or Tebuconazole 25.9% EC @ 1 ml/L.",
+                "Avoid sprinkler irrigation; harvest bulbs during dry weather and cure thoroughly in shade."
+            ]
+        }
+    ]
+};
+
+// Populate Crop dropdown for ICAR Database
+function populateDbCropSelect() {
+    const select = document.getElementById('selectDbCrop');
+    if (!select) return;
+    select.innerHTML = '<option value="" disabled selected>Select Crop (e.g. Wheat, Rice, Tomato...)</option>';
+    Object.keys(plantPathologyDb).forEach(crop => {
+        const opt = document.createElement('option');
+        opt.value = crop;
+        opt.textContent = crop;
+        select.appendChild(opt);
+    });
+}
+
+function onDbCropChange(crop) {
+    const disSelect = document.getElementById('selectDbDisease');
+    if (!disSelect) return;
+    disSelect.innerHTML = '<option value="" disabled selected>Select Disease / Symptom</option>';
+    
+    if (plantPathologyDb[crop]) {
+        disSelect.disabled = false;
+        plantPathologyDb[crop].forEach((dis, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.textContent = dis.name;
+            disSelect.appendChild(opt);
+        });
+    } else {
+        disSelect.disabled = true;
+    }
+}
+
+function applyDbDiagnosis() {
+    const cropSelect = document.getElementById('selectDbCrop');
+    const disSelect = document.getElementById('selectDbDisease');
+
+    if (!cropSelect || !cropSelect.value || !disSelect || disSelect.value === "") {
+        alert("Please select both a Crop and Disease symptom.");
+        return;
+    }
+
+    const crop = cropSelect.value;
+    const idx = parseInt(disSelect.value);
+    const data = plantPathologyDb[crop][idx];
+
+    displayPestResult(data);
+}
+
+
+// Copy standard prompt for ChatGPT / Gemini
+function copyPestPromptForChatGpt() {
+    const promptText = `I have uploaded a photo of an infected plant/crop leaf. 
+Please act as an expert plant pathologist and provide a structured diagnosis:
+1. Detected Disease: [Name of crop & disease]
+2. About the Disease: [Short description of causes and symptoms]
+3. Severity Status: [Low, Moderate, High Risk, or Critical]
+4. Recommended Solutions:
+- [Chemical treatment step 1]
+- [Organic / Cultural remedy step 2]
+- [Preventative measure step 3]`;
+
+    navigator.clipboard.writeText(promptText).then(() => {
+        alert("✓ Prompt copied to clipboard!\n\n1. Open ChatGPT or Google Gemini.\n2. Attach your crop leaf photo & paste the prompt.\n3. Copy the answer and paste it into Step 2 below.");
+    }).catch(err => {
+        prompt("Copy this prompt for ChatGPT / Gemini:", promptText);
+    });
+}
+
+// Smart Parser for pasted ChatGPT / Gemini reports
+function processChatGptPestInput() {
+    const rawInput = document.getElementById('chatGptRawInput');
+    const text = rawInput ? rawInput.value.trim() : "";
+
+    if (!text) {
+        alert("Please paste the response from ChatGPT or Google Gemini.");
+        return;
+    }
+
+    // Try parsing as JSON first
+    let parsedData = null;
+    try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+            const json = JSON.parse(jsonMatch[0]);
+            parsedData = {
+                name: json.detected || json.name || json.disease || "Diagnosed Plant Condition",
+                info: json.info || json.description || json.about || "Diagnosis based on submitted symptoms.",
+                severity: json.severity || "Moderate",
+                solutions: json.solutions || json.treatments || [
+                    "Apply recommended fungicide or pesticide.",
+                    "Ensure proper drainage and balanced nutrition.",
+                    "Destroy severely infected plant parts."
+                ]
+            };
+        }
+    } catch(e) {}
+
+    // Fallback: Smart Natural Language Text Extraction
+    if (!parsedData) {
+        let diseaseName = "Plant Infection / Pest Diagnosis";
+        let info = "";
+        let severity = "Moderate";
+        let solutions = [];
+
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+        // Extract Disease Name
+        for (const line of lines) {
+            const clean = line.replace(/[*#_]/g, '').trim();
+            if (clean.toLowerCase().startsWith("detected disease:") || clean.toLowerCase().startsWith("disease:") || clean.toLowerCase().startsWith("condition:")) {
+                diseaseName = clean.split(':')[1].trim();
+                break;
+            } else if (clean.toLowerCase().includes("diagnos") && clean.length < 60) {
+                diseaseName = clean.replace(/diagnosis:?/i, '').trim();
+                break;
+            }
+        }
+        if (diseaseName === "Plant Infection / Pest Diagnosis" && lines.length > 0) {
+            diseaseName = lines[0].replace(/[*#_]/g, '').slice(0, 60);
+        }
+
+        // Extract Severity
+        if (text.toLowerCase().includes("critical")) severity = "Critical";
+        else if (text.toLowerCase().includes("high risk") || text.toLowerCase().includes("severe")) severity = "High Risk";
+        else if (text.toLowerCase().includes("low") || text.toLowerCase().includes("mild")) severity = "Low";
+        else severity = "Moderate";
+
+        // Extract Solutions / Bullet points
+        for (const line of lines) {
+            if (line.startsWith('-') || line.startsWith('•') || line.startsWith('*') || /^\d+\./.test(line)) {
+                const sol = line.replace(/^[-•*\d.]+\s*/, '').replace(/[*#_]/g, '').trim();
+                if (sol.length > 5 && !sol.toLowerCase().includes("detected disease") && !sol.toLowerCase().includes("severity")) {
+                    solutions.push(sol);
+                }
+            }
+        }
+
+        // Extract Info / Description
+        const nonBulletLines = lines.filter(l => !l.startsWith('-') && !l.startsWith('•') && !l.startsWith('*') && !/^\d+\./.test(l));
+        if (nonBulletLines.length > 1) {
+            info = nonBulletLines.slice(1, 3).join(' ').replace(/[*#_]/g, '');
+        } else {
+            info = text.slice(0, 200).replace(/[*#_]/g, '') + "...";
+        }
+
+        if (solutions.length === 0) {
+            solutions = [
+                "Apply recommended chemical fungicide/insecticide based on local agro-center advice.",
+                "Spray Neem oil (5ml/L) as an organic deterrent.",
+                "Ensure proper crop spacing and avoid water stagnation."
+            ];
+        }
+
+        parsedData = {
+            name: diseaseName,
+            info: info,
+            severity: severity,
+            solutions: solutions.slice(0, 5)
+        };
+    }
+
+    displayPestResult(parsedData);
+}
+
+// Display Diagnostic Result Panel
+function displayPestResult(data) {
+    const resultPanel = document.getElementById('pestResultPanel');
+    if (!resultPanel) return;
+
+    document.getElementById('detectedDisease').textContent = data.name;
+    document.getElementById('diseaseInfo').textContent = data.info;
+
+    const sevStat = document.getElementById('severityStatus');
+    sevStat.textContent = data.severity;
+
+    // Apply color styling
+    if (data.severity === 'Critical' || data.severity === 'High Risk') {
+        sevStat.style.background = '#fee2e2'; sevStat.style.color = '#ef4444';
+    } else if (data.severity === 'Moderate') {
+        sevStat.style.background = '#fef3c7'; sevStat.style.color = '#f59e0b';
+    } else {
+        sevStat.style.background = '#dcfce7'; sevStat.style.color = '#16a34a';
+    }
+
+    const list = document.getElementById('solutionList');
+    list.innerHTML = '';
+    data.solutions.forEach(sol => {
+        const li = document.createElement('li');
+        li.textContent = sol;
+        list.appendChild(li);
+    });
+
+    currentPestAnalysis = {
+        name: data.name,
+        info: data.info,
+        severity: data.severity,
+        solutions: data.solutions,
+        date: new Date().toLocaleDateString('en-GB')
+    };
+
+    resultPanel.classList.remove('hidden');
+    resultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+
 // Auto-seed Demo Farmer and Admin into LocalStorage if not exists
 (function initDefaultAccounts() {
     try {

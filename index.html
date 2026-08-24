@@ -361,22 +361,60 @@
         </div>
     </section>
 
-    <!-- Pest & Disease Management Section -->
+        <!-- Pest & Disease Management Section -->
     <section id="pest-mgmt" class="pest-mgmt-section hidden">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">AI Pest & Disease Diagnosis</h2>
-                <p class="section-subtitle">Upload a photo of the infected crop area for instant AI-powered
-                    identification and treatment solutions.</p>
+                <p class="section-subtitle">Identify infected crops accurately using Google Gemini AI, ChatGPT Copy-Paste, or our ICAR Plant Pathology Database.</p>
+            </div>
+
+            <!-- Diagnosis Mode Switcher -->
+            <div class="pest-modes-nav" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; flex-wrap: wrap;">
+                <button type="button" class="pest-tab-btn active" id="tabBtnPhoto" onclick="switchPestMode('photo')" style="padding: 10px 20px; border-radius: 30px; border: 1.5px solid #22c55e; background: #22c55e; color: white; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-camera"></i> 1. Image Scan / Gemini Vision
+                </button>
+                <button type="button" class="pest-tab-btn" id="tabBtnChatGpt" onclick="switchPestMode('chatgpt')" style="padding: 10px 20px; border-radius: 30px; border: 1.5px solid #cbd5e1; background: white; color: #334155; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-paste"></i> 2. Paste from ChatGPT / Gemini
+                </button>
+                <button type="button" class="pest-tab-btn" id="tabBtnDatabase" onclick="switchPestMode('database')" style="padding: 10px 20px; border-radius: 30px; border: 1.5px solid #cbd5e1; background: white; color: #334155; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-book-medical"></i> 3. Select Crop & Disease
+                </button>
+                <button type="button" onclick="openApiKeyModal()" style="padding: 10px 18px; border-radius: 30px; border: 1.5px dashed #f59e0b; background: #fffbeb; color: #b45309; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 6px;" title="Configure Google Gemini Free API Key">
+                    <i class="fa-solid fa-key"></i> <span id="apiKeyStatusLabel">Set Gemini Key</span>
+                </button>
+            </div>
+
+            <!-- API Key Configuration Modal -->
+            <div id="apiKeyModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 99999; justify-content: center; align-items: center; padding: 20px;">
+                <div style="background: white; border-radius: 20px; max-width: 500px; width: 100%; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: left; position: relative;">
+                    <button onclick="closeApiKeyModal()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+                    <h3 style="color: #166534; font-size: 1.4rem; margin-bottom: 10px;"><i class="fa-solid fa-key"></i> Google Gemini API Key</h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Add your 100% free Google Gemini API key to enable live AI image scanning and instant agronomist advisory.</p>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">Gemini API Key</label>
+                        <input type="password" id="inputGeminiApiKey" placeholder="AIzaSy..." style="width: 100%; padding: 12px 15px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: monospace; font-size: 0.95rem;">
+                    </div>
+                    
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px; font-size: 0.85rem; color: #166534; margin-bottom: 20px;">
+                        <i class="fa-solid fa-circle-info"></i> Don't have a key? Get one in 10 seconds for free from <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #15803d; font-weight: 700; text-decoration: underline;">Google AI Studio</a>.
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="saveGeminiApiKey()" class="btn-primary" style="flex: 1; height: 44px; border-radius: 8px;"><i class="fa-solid fa-check"></i> Save Key</button>
+                        <button onclick="clearGeminiApiKey()" class="btn-secondary" style="flex: 1; height: 44px; border-radius: 8px; color: #ef4444;"><i class="fa-solid fa-trash"></i> Remove</button>
+                    </div>
+                </div>
             </div>
 
             <div class="pest-mgmt-container">
-                <!-- Scanner Card -->
-                <div class="scanner-card card-glass">
+                <!-- Mode 1: Scanner Card (Image Upload) -->
+                <div class="scanner-card card-glass" id="pestScannerCard">
                     <div class="upload-area" id="pestUploadArea">
                         <i class="fa-solid fa-cloud-arrow-up icon-upload"></i>
                         <h3>Drop image here or click to upload</h3>
-                        <p>Format supported: JPG, PNG, WEBP</p>
+                        <p>Format supported: JPG, PNG, WEBP (Clear photo of infected leaf)</p>
                         <input type="file" id="pestImageInput" hidden accept="image/*">
                         <button class="btn-primary" id="selectImageBtn">Select Image</button>
                     </div>
@@ -388,6 +426,49 @@
                         <button class="btn-analyze-pest btn-ai-glow" id="analyzePestBtn">Start AI Diagnosis</button>
                         <button class="btn-secondary" id="reuploadBtn" style="margin-top: 15px;">Change Image</button>
                     </div>
+                </div>
+
+                <!-- Mode 2: ChatGPT / Gemini Direct Paste Panel -->
+                <div class="scanner-card card-glass hidden" id="pestChatGptCard">
+                    <h3 style="color: #166534; font-size: 1.3rem; margin-bottom: 12px;"><i class="fa-solid fa-robot"></i> ChatGPT / Gemini Direct Import</h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 18px;">If you already asked ChatGPT or Gemini about your infected plant, simply paste the response below!</p>
+                    
+                    <button type="button" onclick="copyPestPromptForChatGpt()" class="btn-secondary" style="width: 100%; margin-bottom: 15px; border-radius: 10px; padding: 10px; font-weight: 600; border: 1.5px dashed #22c55e; color: #166534; background: #f0fdf4;">
+                        <i class="fa-solid fa-copy"></i> Step 1: Copy AI Prompt for ChatGPT / Gemini
+                    </button>
+
+                    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
+                        <label style="font-weight: 600; font-size: 0.9rem;">Step 2: Paste ChatGPT / Gemini Response:</label>
+                        <textarea id="chatGptRawInput" placeholder="Paste the text or report given by ChatGPT/Gemini here (e.g. Disease name, causes, remedies)..." style="width: 100%; height: 140px; padding: 12px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-family: inherit; font-size: 0.9rem; resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="button" onclick="processChatGptPestInput()" class="btn-primary" style="width: 100%; height: 48px; border-radius: 10px; font-weight: 700;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Structured Report
+                    </button>
+                </div>
+
+                <!-- Mode 3: Verified ICAR Disease Database Selector -->
+                <div class="scanner-card card-glass hidden" id="pestDatabaseCard">
+                    <h3 style="color: #166534; font-size: 1.3rem; margin-bottom: 12px;"><i class="fa-solid fa-book-medical"></i> ICAR Disease Database</h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 18px;">Select your crop and visible symptoms for instant expert verified treatment.</p>
+
+                    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
+                        <label style="font-weight: 600; font-size: 0.9rem;">1. Select Crop:</label>
+                        <select id="selectDbCrop" style="width: 100%; padding: 12px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: inherit;" onchange="onDbCropChange(this.value)">
+                            <option value="" disabled selected>Select Crop (e.g. Wheat, Rice, Tomato...)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group" style="margin-bottom: 20px; text-align: left;">
+                        <label style="font-weight: 600; font-size: 0.9rem;">2. Select Symptom / Disease:</label>
+                        <select id="selectDbDisease" style="width: 100%; padding: 12px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: inherit;" disabled>
+                            <option value="">Select crop first</option>
+                        </select>
+                    </div>
+
+                    <button type="button" onclick="applyDbDiagnosis()" class="btn-primary" style="width: 100%; height: 48px; border-radius: 10px; font-weight: 700;">
+                        <i class="fa-solid fa-file-medical"></i> View Verified Diagnostic Report
+                    </button>
                 </div>
 
                 <!-- Analysis Result Panel -->
@@ -412,7 +493,7 @@
                     </div>
 
                     <div class="pest-solution-box">
-                        <h4><i class="fa-solid fa-lightbulb"></i> Recommended Solutions</h4>
+                        <h4><i class="fa-solid fa-lightbulb"></i> Recommended Solutions & Treatment</h4>
                         <ul id="solutionList">
                             <li>Apply Propiconazole 25% EC @ 500 ml/ha.</li>
                             <li>Use rust-resistant wheat varieties for the next season.</li>
@@ -422,7 +503,7 @@
 
                     <div style="display: flex; gap: 15px; margin-top: 20px; width: 100%;">
                         <button class="btn-secondary" id="savePestReportBtn" style="flex: 1; height: 48px; border-radius: 8px; font-weight: 600;"><i class="fa-solid fa-floppy-disk"></i> Save Report</button>
-                        <button class="btn-primary" onclick="location.reload()" style="flex: 1; height: 48px; border-radius: 8px; font-weight: 600;">New Diagnosis</button>
+                        <button class="btn-primary" onclick="resetPestDiagnosis()" style="flex: 1; height: 48px; border-radius: 8px; font-weight: 600;">New Diagnosis</button>
                     </div>
                 </div>
             </div>
