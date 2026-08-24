@@ -842,8 +842,9 @@ function displayPestResult(data) {
     }
 })();
 
-const BACKEND_URL = "http://127.0.0.1:8005"; // FastAPI Backend URL
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"; // <-- PLEASE ADD YOUR GOOGLE GEMINI API KEY HERE
+const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? "http://127.0.0.1:8005"
+    : "https://agrotech-d4fp.onrender.com";
 
 const RUNTIME_USERS_KEY = 'agrotech_users';
 const CURRENT_USER_KEY = 'agrotech_auth_user';
