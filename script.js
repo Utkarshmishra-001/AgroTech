@@ -1,17 +1,105 @@
 
-// Unified Helper to get All Registered Users (LocalStorage + Backend Sync)
+
+// ============================================================================
+// 🌐 AGROTECH UNIFIED DUAL-ENGINE: LOCALSTORAGE + BACKEND CLOUD DATABASE MERGE
+// ============================================================================
+
+// 1. Unified Crops (Built-in + Admin LocalStorage + Backend Cloud)
+async function getAllMergedAdminCrops() {
+    let map = new Map();
+
+    // Built-in 30 crops
+    crops.forEach(c => {
+        map.set(c.name.toLowerCase(), {
+            id: String(c.id),
+            name: c.name,
+            image: c.image,
+            desc: c.summary || c.description,
+            soil: c.soil,
+            temp: c.temp,
+            rain: c.rain,
+            season: c.harvest || 'Annual',
+            uses: c.region || 'India',
+            guide: c.description || c.summary,
+            isDefault: true
+        });
+    });
+
+    // LocalStorage Admin Crops
+    const localAdminCrops = JSON.parse(localStorage.getItem(CROP_DB_KEY)) || [];
+    localAdminCrops.forEach(c => {
+        if (c && c.name) {
+            map.set(c.name.toLowerCase(), { ...c, id: String(c.id || Date.now()), isCustom: true });
+        }
+    });
+
+    return Array.from(map.values());
+}
+
+// 2. Unified Schemes (Built-in + Admin LocalStorage + Backend Cloud)
+async function getAllMergedAdminSchemes() {
+    let map = new Map();
+
+    // Built-in schemes
+    schemesData.forEach((s, idx) => {
+        const key = (s.title || '').toLowerCase();
+        map.set(key, {
+            id: `builtin_${idx}`,
+            title: s.title,
+            icon: s.icon || 'fa-solid fa-file-contract',
+            desc: s.desc,
+            benefits: s.benefits || [],
+            url: s.url || '',
+            eligibility: s.eligibility || 'All Eligible Farmers',
+            isDefault: true
+        });
+    });
+
+    // LocalStorage Admin Schemes
+    const localSchemes = JSON.parse(localStorage.getItem(SCHEMES_DB_KEY)) || [];
+    localSchemes.forEach(s => {
+        if (s && s.title) {
+            map.set(s.title.toLowerCase(), { ...s, id: String(s.id || Date.now()), isCustom: true });
+        }
+    });
+
+    // Backend Cloud Schemes
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/schemes`);
+        if (res.ok) {
+            const backendSchemes = await res.json();
+            backendSchemes.forEach(s => {
+                const title = s.title || s.scheme_name;
+                if (title && !map.has(title.toLowerCase())) {
+                    map.set(title.toLowerCase(), {
+                        id: String(s._id || s.id || Date.now()),
+                        title: title,
+                        icon: s.icon || s.scheme_icon || 'fa-solid fa-file-contract',
+                        desc: s.desc || s.description || '',
+                        benefits: s.benefits || (s.eligibility ? [s.eligibility] : []),
+                        url: s.url || s.scheme_url || '',
+                        eligibility: s.eligibility || s.scheme_eligibility || '',
+                        isCloud: true
+                    });
+                }
+            });
+        }
+    } catch(e) {}
+
+    return Array.from(map.values());
+}
+
+// 3. Unified Users (LocalStorage + Backend Cloud)
 async function getAllAdminUsers() {
     let localUsers = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
     let mergedMap = new Map();
 
-    // 1. Add LocalStorage users first
     localUsers.forEach(u => {
         if (u && u.email) {
-            mergedMap.set(u.email.toLowerCase(), { ...u });
+            mergedMap.set(u.email.toLowerCase(), { ...u, source: 'LocalStorage' });
         }
     });
 
-    // 2. Try fetching from Backend and merge
     try {
         const response = await fetch(`${BACKEND_URL}/api/users`);
         if (response.ok) {
@@ -20,26 +108,24 @@ async function getAllAdminUsers() {
                 if (u && u.email) {
                     const key = u.email.toLowerCase();
                     if (!mergedMap.has(key)) {
-                        mergedMap.set(key, { ...u });
+                        mergedMap.set(key, { ...u, source: 'MongoDB Atlas' });
                     }
                 }
             });
         }
-    } catch (e) {
-        console.log("Backend users endpoint offline, using local storage users.");
-    }
+    } catch (e) {}
 
     return Array.from(mergedMap.values());
 }
 
-// Unified Helper for Drone Bookings (LocalStorage + Backend)
+// 4. Unified Drone Bookings (LocalStorage + Backend Cloud)
 async function getAllAdminDroneBookings() {
     let localBookings = JSON.parse(localStorage.getItem('agrotech_drone_bookings')) || [];
     let map = new Map();
 
     localBookings.forEach((b, idx) => {
-        const id = b._id || b.id || `local_${idx}`;
-        map.set(String(id), { ...b, _id: id });
+        const id = String(b._id || b.id || `local_drone_${idx}`);
+        map.set(id, { ...b, _id: id });
     });
 
     try {
@@ -47,8 +133,8 @@ async function getAllAdminDroneBookings() {
         if (res.ok) {
             const backendBookings = await res.json();
             backendBookings.forEach(b => {
-                const id = b._id || b.id;
-                if (id) map.set(String(id), { ...b, _id: id });
+                const id = String(b._id || b.id);
+                if (id) map.set(id, { ...b, _id: id });
             });
         }
     } catch (e) {}
@@ -56,14 +142,14 @@ async function getAllAdminDroneBookings() {
     return Array.from(map.values());
 }
 
-// Unified Helper for Soil Reports (LocalStorage + Backend)
+// 5. Unified Soil Lab Reports (LocalStorage + Backend Cloud)
 async function getAllAdminSoilReports() {
     let localReports = JSON.parse(localStorage.getItem('agrotech_reports')) || [];
     let map = new Map();
 
     localReports.forEach((r, idx) => {
-        const id = r._id || r.id || `local_soil_${idx}`;
-        map.set(String(id), { ...r, _id: id });
+        const id = String(r._id || r.id || `local_soil_${idx}`);
+        map.set(id, { ...r, _id: id });
     });
 
     try {
@@ -71,8 +157,35 @@ async function getAllAdminSoilReports() {
         if (res.ok) {
             const backendReports = await res.json();
             backendReports.forEach(r => {
-                const id = r._id || r.id;
-                if (id) map.set(String(id), { ...r, _id: id });
+                const id = String(r._id || r.id);
+                if (id && r.reportType !== 'pest') map.set(id, { ...r, _id: id });
+            });
+        }
+    } catch (e) {}
+
+    return Array.from(map.values());
+}
+
+// 6. Unified Pest Diagnosis Reports (LocalStorage + Backend Cloud)
+async function getAllAdminPestReports() {
+    let localReports = JSON.parse(localStorage.getItem('agrotech_pest_saved_reports')) || 
+                       JSON.parse(localStorage.getItem('agrotech_pest_reports')) || [];
+    let map = new Map();
+
+    localReports.forEach((r, idx) => {
+        const id = String(r._id || r.id || `local_pest_${idx}`);
+        map.set(id, { ...r, _id: id });
+    });
+
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/all-reports`);
+        if (res.ok) {
+            const backendReports = await res.json();
+            backendReports.forEach(r => {
+                if (r && r.reportType === 'pest') {
+                    const id = String(r._id || r.id);
+                    map.set(id, { ...r, _id: id });
+                }
             });
         }
     } catch (e) {}
@@ -3419,14 +3532,20 @@ if (adminLoginForm) {
 // === ADMIN DASHBOARD LOGIC ===
 function switchAdminTab(btnElement, tabId) {
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
-    document.querySelector('#' + tabId).classList.remove('hidden');
+    const targetTab = document.querySelector('#' + tabId);
+    if (targetTab) targetTab.classList.remove('hidden');
     
     document.querySelectorAll('#adminTabs .tab-btn').forEach(btn => btn.classList.remove('active'));
     btnElement.classList.add('active');
 
     if (tabId === 'tab-users') {
         renderAdminUsers();
+    } else if (tabId === 'tab-crops') {
+        renderAdminCrops();
+    } else if (tabId === 'tab-schemes') {
+        renderAdminSchemes();
     }
+    loadAdminData();
 }
 
 async function loadAdminData() {
