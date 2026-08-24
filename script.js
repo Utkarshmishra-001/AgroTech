@@ -1,4 +1,86 @@
 
+// Unified Helper to get All Registered Users (LocalStorage + Backend Sync)
+async function getAllAdminUsers() {
+    let localUsers = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
+    let mergedMap = new Map();
+
+    // 1. Add LocalStorage users first
+    localUsers.forEach(u => {
+        if (u && u.email) {
+            mergedMap.set(u.email.toLowerCase(), { ...u });
+        }
+    });
+
+    // 2. Try fetching from Backend and merge
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/users`);
+        if (response.ok) {
+            const backendUsers = await response.json();
+            backendUsers.forEach(u => {
+                if (u && u.email) {
+                    const key = u.email.toLowerCase();
+                    if (!mergedMap.has(key)) {
+                        mergedMap.set(key, { ...u });
+                    }
+                }
+            });
+        }
+    } catch (e) {
+        console.log("Backend users endpoint offline, using local storage users.");
+    }
+
+    return Array.from(mergedMap.values());
+}
+
+// Unified Helper for Drone Bookings (LocalStorage + Backend)
+async function getAllAdminDroneBookings() {
+    let localBookings = JSON.parse(localStorage.getItem('agrotech_drone_bookings')) || [];
+    let map = new Map();
+
+    localBookings.forEach((b, idx) => {
+        const id = b._id || b.id || `local_${idx}`;
+        map.set(String(id), { ...b, _id: id });
+    });
+
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/drone-bookings`);
+        if (res.ok) {
+            const backendBookings = await res.json();
+            backendBookings.forEach(b => {
+                const id = b._id || b.id;
+                if (id) map.set(String(id), { ...b, _id: id });
+            });
+        }
+    } catch (e) {}
+
+    return Array.from(map.values());
+}
+
+// Unified Helper for Soil Reports (LocalStorage + Backend)
+async function getAllAdminSoilReports() {
+    let localReports = JSON.parse(localStorage.getItem('agrotech_reports')) || [];
+    let map = new Map();
+
+    localReports.forEach((r, idx) => {
+        const id = r._id || r.id || `local_soil_${idx}`;
+        map.set(String(id), { ...r, _id: id });
+    });
+
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/all-reports`);
+        if (res.ok) {
+            const backendReports = await res.json();
+            backendReports.forEach(r => {
+                const id = r._id || r.id;
+                if (id) map.set(String(id), { ...r, _id: id });
+            });
+        }
+    } catch (e) {}
+
+    return Array.from(map.values());
+}
+
+
 // Client-Side Canvas Visual Spectrum & Color Pattern Analyzer for Plant Leaves
 function analyzeLeafImagePixels(imgElement) {
     try {
@@ -3347,94 +3429,93 @@ function switchAdminTab(btnElement, tabId) {
     }
 }
 
-function loadAdminData() {
+async function loadAdminData() {
     renderAdminCrops();
     renderAdminUsers();
     renderAdminSchemes();
 
     // 1. WhatsApp Alerts Users List
-    fetch(`${BACKEND_URL}/api/users`).then(res => res.json()).then(users => {
-        const alertUserSelect = document.getElementById('adminAlertUser');
-        if (alertUserSelect) {
-            alertUserSelect.innerHTML = '<option value="">Select Registered User</option>';
-            users.forEach(u => {
-                const opt = document.createElement('option');
-                opt.value = u.email;
-                opt.textContent = `${u.name} (${u.mobile})`;
-                alertUserSelect.appendChild(opt);
-            });
-        }
-    }).catch(err => console.error("Error fetching users for alerts:", err));
+    const users = await getAllAdminUsers();
+    const alertUserSelect = document.getElementById('adminAlertUser');
+    if (alertUserSelect) {
+        alertUserSelect.innerHTML = '<option value="">Select Registered User</option>';
+        users.forEach(u => {
+            const opt = document.createElement('option');
+            opt.value = u.email;
+            opt.textContent = `${u.name || 'Farmer'} (${u.mobile || u.email})`;
+            alertUserSelect.appendChild(opt);
+        });
+    }
 
     // 2. Load Drone Bookings
-    fetch(`${BACKEND_URL}/api/drone-bookings`).then(res => res.json()).then(bookArr => {
-        const adminDroneBody = document.getElementById('adminDroneBody');
-        if (adminDroneBody) {
-            if (bookArr.length === 0) {
-                adminDroneBody.innerHTML = `<tr><td colspan="7" class="text-center" style="padding: 20px; color: #64748b;">No bookings found</td></tr>`;
-            } else {
-                adminDroneBody.innerHTML = '';
-                // Reverse to show latest first
-                bookArr.reverse().forEach((b, i) => {
-                    adminDroneBody.innerHTML += `<tr>
-                        <td><strong>${b.farmerName || 'N/A'}</strong></td>
-                        <td>${b.mobile || 'N/A'}</td>
-                        <td>${b.acres || 'N/A'} acres${b.crop ? ` &bull; <em>${b.crop}</em>` : ''}</td>
-                        <td style="max-width:180px;white-space:pre-wrap;word-wrap:break-word;font-size:0.85rem;color:#475569;">${b.address || '<span style="color:#94a3b8;">—</span>'}</td>
-                        <td>${b.date || 'N/A'}</td>
-                        <td><span style="display:inline-block; padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.85rem; background:${b.status==='Approved'?'#dcfce7':(b.status==='Rejected'?'#fee2e2':'#fef3c7')}; color:${b.status==='Approved'?'#166534':(b.status==='Rejected'?'#991b1b':'#92400e')}">${b.status || 'Pending'}</span></td>
-                        <td>
-                            <button onclick="updateDroneStatus('${b._id}', 'Approved')" style="padding:4px 8px; background:#22c55e; color:white; border:none; border-radius:4px; cursor:pointer;" title="Approve">Approve</button>
-                            <button onclick="updateDroneStatus('${b._id}', 'Rejected')" style="padding:4px 8px; background:#ef4444; color:white; border:none; border-radius:4px; cursor:pointer;" title="Reject">Reject</button>
-                        </td>
-                    </tr>`;
-                });
-            }
+    const bookArr = await getAllAdminDroneBookings();
+    const adminDroneBody = document.getElementById('adminDroneBody');
+    if (adminDroneBody) {
+        if (bookArr.length === 0) {
+            adminDroneBody.innerHTML = `<tr><td colspan="7" class="text-center" style="padding: 20px; color: #64748b;">No drone bookings found</td></tr>`;
+        } else {
+            adminDroneBody.innerHTML = '';
+            bookArr.slice().reverse().forEach((b) => {
+                const bookingId = b._id || b.id;
+                const statusBg = b.status === 'Approved' ? '#dcfce7' : (b.status === 'Rejected' ? '#fee2e2' : '#fef3c7');
+                const statusColor = b.status === 'Approved' ? '#166534' : (b.status === 'Rejected' ? '#991b1b' : '#92400e');
+                adminDroneBody.innerHTML += `<tr>
+                    <td><strong>${b.farmerName || 'N/A'}</strong></td>
+                    <td>${b.mobile || 'N/A'}</td>
+                    <td>${b.acres || '1'} acres${b.crop ? ` &bull; <em>${b.crop}</em>` : ''}</td>
+                    <td style="max-width:180px;white-space:pre-wrap;word-wrap:break-word;font-size:0.85rem;color:#475569;">${b.address || '<span style="color:#94a3b8;">—</span>'}</td>
+                    <td>${b.date || 'N/A'}</td>
+                    <td><span style="display:inline-block; padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.85rem; background:${statusBg}; color:${statusColor}">${b.status || 'Pending'}</span></td>
+                    <td>
+                        <button onclick="updateDroneStatus('${bookingId}', 'Approved')" style="padding:4px 8px; background:#22c55e; color:white; border:none; border-radius:4px; cursor:pointer;" title="Approve">Approve</button>
+                        <button onclick="updateDroneStatus('${bookingId}', 'Rejected')" style="padding:4px 8px; background:#ef4444; color:white; border:none; border-radius:4px; cursor:pointer;" title="Reject">Reject</button>
+                    </td>
+                </tr>`;
+            });
         }
-    }).catch(err => console.error("Error fetching drone bookings:", err));
+    }
 
     // 3. Load Soil Lab Reports
-    fetch(`${BACKEND_URL}/api/all-reports`).then(res => res.json()).then(soilArr => {
-        const adminSoilBody = document.getElementById('adminSoilBody');
-        if (adminSoilBody) {
-            if (soilArr.length === 0) {
-                adminSoilBody.innerHTML = `<tr><td colspan="4" class="text-center" style="padding: 20px; color: #64748b;">No reports submitted yet</td></tr>`;
-            } else {
-                adminSoilBody.innerHTML = '';
-                soilArr.reverse().forEach(s => {
-                    const reportId = s._id || s.id;
-                    adminSoilBody.innerHTML += `<tr>
-                        <td>${s.email}</td>
-                        <td>${s.date}</td>
-                        <td>${s.crop || 'Unknown'}</td>
-                        <td><span style="padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.85rem; background:#e0e7ff; color:#3730a3">Analyzed</span></td>
-                        <td>
-                            <button onclick="viewAdminSoilReport('${reportId}')" style="padding:4px 10px; background:var(--primary); color:white; border:none; border-radius:4px; cursor:pointer;" title="View Detail"><i class="fa-solid fa-eye"></i> View</button>
-                            <button onclick="deleteAdminReport('${reportId}')" style="padding:4px 8px; background:#ef4444; color:white; border:none; border-radius:4px; cursor:pointer;" title="Delete Report"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>`;
-                });
-            }
+    const soilArr = await getAllAdminSoilReports();
+    const adminSoilBody = document.getElementById('adminSoilBody');
+    if (adminSoilBody) {
+        if (soilArr.length === 0) {
+            adminSoilBody.innerHTML = `<tr><td colspan="5" class="text-center" style="padding: 20px; color: #64748b;">No reports submitted yet</td></tr>`;
+        } else {
+            adminSoilBody.innerHTML = '';
+            soilArr.slice().reverse().forEach(s => {
+                const reportId = s._id || s.id;
+                adminSoilBody.innerHTML += `<tr>
+                    <td>${s.email || 'Anonymous'}</td>
+                    <td>${s.date || 'Recent'}</td>
+                    <td>${s.crop || 'Crop Advisory'}</td>
+                    <td><span style="padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.85rem; background:#e0e7ff; color:#3730a3">Analyzed</span></td>
+                    <td>
+                        <button onclick="viewAdminSoilReport('${reportId}')" style="padding:4px 10px; background:var(--primary); color:white; border:none; border-radius:4px; cursor:pointer;" title="View Detail"><i class="fa-solid fa-eye"></i> View</button>
+                        <button onclick="deleteAdminReport('${reportId}')" style="padding:4px 8px; background:#ef4444; color:white; border:none; border-radius:4px; cursor:pointer;" title="Delete Report"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
+            });
         }
-    }).catch(err => console.error("Error fetching soil reports:", err));
+    }
 
     // 4. Load Pest Reports
-    const pestArr = JSON.parse(localStorage.getItem('agrotech_pest_reports')) || [];
+    const pestArr = JSON.parse(localStorage.getItem('agrotech_pest_reports')) || JSON.parse(localStorage.getItem('agrotech_pest_saved_reports')) || [];
     const adminPestBody = document.getElementById('adminPestBody');
     if (adminPestBody) {
         if (pestArr.length === 0) {
-            adminPestBody.innerHTML = `<tr><td colspan="5" class="text-center" style="padding: 20px; color: #64748b;">No diagnosis history</td></tr>`;
+            adminPestBody.innerHTML = `<tr><td colspan="5" class="text-center" style="padding: 20px; color: #64748b;">No diagnosis history found</td></tr>`;
         } else {
             adminPestBody.innerHTML = '';
-            pestArr.forEach((p, index) => {
-                const sevLevel = p.severity || 'High';
+            pestArr.slice().reverse().forEach((p, index) => {
+                const sevLevel = p.severity || 'Moderate';
                 const sevColor = (sevLevel === 'Critical' || sevLevel.includes('High')) ? '#991b1b' : (sevLevel === 'Moderate' ? '#92400e' : '#166534');
                 const sevBg = (sevLevel === 'Critical' || sevLevel.includes('High')) ? '#fee2e2' : (sevLevel === 'Moderate' ? '#fef3c7' : '#dcfce7');
                 
                 adminPestBody.innerHTML += `<tr>
-                    <td>${p.email}</td>
-                    <td>${p.date}</td>
-                    <td>${p.disease}</td>
+                    <td>${p.email || 'Local User'}</td>
+                    <td>${p.date || 'Recent'}</td>
+                    <td>${p.name || p.disease || 'Plant Diagnosis'}</td>
                     <td><span style="padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.85rem; background:${sevBg}; color:${sevColor}">${sevLevel}</span></td>
                     <td><button onclick="viewAdminPestReport(${index})" style="padding:4px 10px; background:var(--primary); color:white; border:none; border-radius:4px; cursor:pointer;" title="View Detail"><i class="fa-solid fa-eye"></i> View</button></td>
                 </tr>`;
@@ -3881,70 +3962,70 @@ function deleteAdminScheme(id) {
 }
 
 // === USER MANAGEMENT LOGIC ===
-function renderAdminUsers() {
+async function renderAdminUsers() {
     const tbody = document.getElementById('adminUsersBody');
     if(!tbody) return;
+
+    tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 20px; color: #64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading registered users...</td></tr>';
     
-    fetch(`${BACKEND_URL}/api/users`).then(res => res.json()).then(users => {
-        const query = document.getElementById('searchUserAdmin')?.value.toLowerCase() || '';
+    let users = await getAllAdminUsers();
+    const query = document.getElementById('searchUserAdmin')?.value.toLowerCase().trim() || '';
+    
+    if (query) {
+        users = users.filter(u => 
+            (u.name && u.name.toLowerCase().includes(query)) || 
+            (u.email && u.email.toLowerCase().includes(query)) || 
+            (u.mobile && u.mobile.includes(query)) ||
+            (u.aadhar && u.aadhar.includes(query))
+        );
+    }
+    
+    if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 20px; color: #64748b;"><i class="fa-solid fa-users-slash" style="font-size: 1.5rem; margin-bottom: 8px; display: block;"></i>No registered farmers found matching query</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = '';
+    users.forEach((u, idx) => {
+        const safeAddress = (u.address || 'N/A').replace(/'/g, "\'").replace(/"/g, "&quot;").replace(/\n/g, " ");
+        const safeName = (u.name || 'N/A').replace(/'/g, "\'").replace(/"/g, "&quot;");
+        const safeMobile = u.mobile || 'N/A';
+        const safeAadhar = u.aadhar || 'N/A';
         
-        if(query) {
-            users = users.filter(u => 
-                (u.name && u.name.toLowerCase().includes(query)) || 
-                (u.email && u.email.toLowerCase().includes(query)) || 
-                (u.aadhar && u.aadhar.includes(query))
-            );
-        }
-        
-        if(users.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 20px; color: #64748b;">No registered farmers found</td></tr>';
-            return;
-        }
-        
-        tbody.innerHTML = '';
-        users.forEach((u, idx) => {
-            const safeAddress = (u.address || 'N/A').replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, "\\n");
-            const safeName = (u.name || 'N/A').replace(/'/g, "\\'").replace(/"/g, "&quot;");
-            
-            tbody.innerHTML += `
-                <tr>
-                    <td><strong>${u.name}</strong></td>
-                    <td><a href="mailto:${u.email}">${u.email}</a></td>
-                    <td>${u.mobile}</td>
-                    <td><span style="font-family: monospace; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">${u.aadhar || 'N/A'}</span></td>
-                    <td style="max-width: 250px; white-space: pre-wrap; word-wrap: break-word; line-height: 1.4; color: #475569;">${u.address || 'N/A'}</td>
-                    <td>
-                        <div style="display: flex; gap: 8px;">
-                            <button onclick="alert('FULL USER PROFILE:\\n\\nName: ${safeName}\\nEmail: ${u.email}\\nMobile: ${u.mobile}\\nAadhar: ${u.aadhar}\\n\\nRegistered Address:\\n${safeAddress}')" style="padding: 6px 10px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;" title="View Profile">View</button>
-                            <button onclick="deleteAdminUser('${u.email}')" style="padding: 6px 10px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;" title="Delete User">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `;
-        });
-    }).catch(err => {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 20px; color: #ef4444;">Error loading users from server</td></tr>';
-        console.error("Error fetching users:", err);
+        tbody.innerHTML += `
+            <tr>
+                <td><strong>${u.name || 'Farmer'}</strong></td>
+                <td><a href="mailto:${u.email}" style="color: #2563eb; text-decoration: underline;">${u.email}</a></td>
+                <td><i class="fa-solid fa-phone" style="color: #16a34a; font-size: 0.8rem;"></i> ${safeMobile}</td>
+                <td><span style="font-family: monospace; background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 6px; font-weight: 600;">${safeAadhar}</span></td>
+                <td style="max-width: 240px; white-space: normal; line-height: 1.4; color: #475569; font-size: 0.9rem;">${u.address || 'N/A'}</td>
+                <td>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <button onclick="alert('FULL FARMER PROFILE:\n\nName: ${safeName}\nEmail: ${u.email}\nMobile: ${safeMobile}\nAadhar: ${safeAadhar}\n\nRegistered Farm Address:\n${safeAddress}')" style="padding: 6px 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;" title="View Profile"><i class="fa-solid fa-eye"></i> View</button>
+                        <button onclick="deleteAdminUser('${u.email}')" style="padding: 6px 10px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;" title="Delete User"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        `;
     });
 }
 
-function deleteAdminUser(email) {
-    if(confirm(`Are you sure you want to completely remove user: ${email}?`)) {
-        fetch(`${BACKEND_URL}/api/users/${email}`, { method: 'DELETE' })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    renderAdminUsers(); // refresh the list
-                    loadAdminData(); // refresh the whatsapp alert user list too
-                } else {
-                    alert("Error deleting user");
-                }
-            })
-            .catch(err => {
-                console.error("Error deleting user:", err);
-                alert("Error deleting user");
-            });
-    }
+async function deleteAdminUser(email) {
+    if(!confirm(`Are you sure you want to completely remove user: ${email}?`)) return;
+
+    // 1. Delete from LocalStorage
+    let localUsers = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
+    localUsers = localUsers.filter(u => u.email.toLowerCase() !== email.toLowerCase());
+    localStorage.setItem(RUNTIME_USERS_KEY, JSON.stringify(localUsers));
+
+    // 2. Also attempt deletion from Backend
+    try {
+        await fetch(`${BACKEND_URL}/api/users/${email}`, { method: 'DELETE' });
+    } catch(err) {}
+
+    alert(`✓ Farmer ${email} removed successfully.`);
+    renderAdminUsers();
+    loadAdminData();
 }
 
 // === INTERCEPT FORM SUBMISSIONS TO LOG TO LOCALSTORAGE ===
