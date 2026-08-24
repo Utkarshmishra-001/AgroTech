@@ -3069,12 +3069,21 @@ function toggleAdminLogin() {
         adminLoginCard.classList.remove('hidden');
         loginCard.classList.add('hidden');
         registerCard.classList.add('hidden');
-        const form = document.getElementById('adminLoginForm');
-        if (form) form.reset();
+        
+        // Forcefully wipe any browser autofill values
+        const wipeFields = () => {
+            const u = document.getElementById('admUserKey');
+            const p = document.getElementById('admPassKey');
+            if (u) u.value = '';
+            if (p) p.value = '';
+        };
+        wipeFields();
+        setTimeout(wipeFields, 50);
+        setTimeout(wipeFields, 200);
     } else {
         adminLoginCard.classList.add('hidden');
         loginCard.classList.remove('hidden');
-        registerCard.classList.add('hidden'); // Ensure register is hidden when coming back
+        registerCard.classList.add('hidden');
     }
 }
 
@@ -3295,20 +3304,33 @@ if (loginForm) {
     });
 }
 
+function handleAdminLogin() {
+    const emailInput = document.getElementById('admUserKey') || document.getElementById('adminEmail');
+    const pwdInput = document.getElementById('admPassKey') || document.getElementById('adminPassword');
+
+    const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+    const pwd = pwdInput ? pwdInput.value : '';
+
+    if (email === 'admin@gmail.com' && pwd === 'admin123') {
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({ name: 'Admin', email: 'admin@gmail.com' }));
+        if (emailInput) emailInput.value = '';
+        if (pwdInput) pwdInput.value = '';
+        applyAccessControl();
+    } else {
+        alert('Invalid Admin Credentials!');
+    }
+}
+
+const adminSubmitBtn = document.getElementById('adminLoginSubmitBtn');
+if (adminSubmitBtn) {
+    adminSubmitBtn.addEventListener('click', handleAdminLogin);
+}
+
 const adminLoginForm = document.getElementById('adminLoginForm');
 if (adminLoginForm) {
     adminLoginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const email = document.getElementById('adminEmail').value.toLowerCase();
-        const pwd = document.getElementById('adminPassword').value;
-        
-        if (email === 'admin@gmail.com' && pwd === 'admin123') {
-            localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({ name: 'Admin', email: 'admin@gmail.com' }));
-            adminLoginForm.reset();
-            applyAccessControl();
-        } else {
-            alert('Invalid Admin Credentials!');
-        }
+        handleAdminLogin();
     });
 }
 

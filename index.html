@@ -682,16 +682,20 @@
                 <div id="adminLoginCard" class="auth-card card-glass hidden">
                     <h3 style="font-size: 2rem; color: #334155;"><i class="fa-solid fa-user-shield"></i> Admin Portal</h3>
                     <p style="color: var(--text-muted); margin-bottom: 25px;">Enter authorized admin credentials to access dashboard.</p>
-                    <form id="adminLoginForm">
+                    <form id="adminLoginForm" autocomplete="off" onsubmit="return false;">
+                        <!-- Decoy inputs to absorb browser autofill -->
+                        <input type="text" name="fake_user" style="display:none !important;" tabindex="-1" autocomplete="off">
+                        <input type="password" name="fake_pass" style="display:none !important;" tabindex="-1" autocomplete="new-password">
+
                         <div class="input-group" style="margin-bottom: 15px; text-align: left;">
-                            <label for="adminEmail">Admin Email</label>
-                            <input type="email" id="adminEmail" placeholder="Enter admin email address" required autocomplete="off">
+                            <label for="admUserKey">Admin Email</label>
+                            <input type="text" id="admUserKey" name="adm_usr_auth_field" placeholder="Enter admin email address" required autocomplete="off" value="" style="background: white;">
                         </div>
                         <div class="input-group" style="text-align: left;">
-                            <label for="adminPassword">Admin Password</label>
-                            <input type="password" id="adminPassword" placeholder="Enter admin password" required autocomplete="new-password">
+                            <label for="admPassKey">Admin Password</label>
+                            <input type="text" id="admPassKey" name="adm_sec_auth_field" placeholder="Enter admin password" required autocomplete="off" value="" style="background: white; -webkit-text-security: disc; text-security: disc;">
                         </div>
-                        <button type="submit" class="btn-primary" style="width: 100%; height: 50px; margin-top: 25px; font-size: 1.1rem; background: #334155;"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
+                        <button type="button" id="adminLoginSubmitBtn" class="btn-primary" style="width: 100%; height: 50px; margin-top: 25px; font-size: 1.1rem; background: #334155;"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
                     </form>
                     <div class="auth-switch" style="margin-top: 25px; font-size: 0.95rem;">
                         <a href="javascript:void(0)" onclick="toggleAdminLogin()" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-arrow-left"></i> Back to User Login</a>
