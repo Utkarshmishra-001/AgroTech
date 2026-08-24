@@ -681,15 +681,15 @@
                 <!-- Admin Login Form -->
                 <div id="adminLoginCard" class="auth-card card-glass hidden">
                     <h3 style="font-size: 2rem; color: #334155;"><i class="fa-solid fa-user-shield"></i> Admin Portal</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 25px;">Enter admin credentials to access dashboard.</p>
+                    <p style="color: var(--text-muted); margin-bottom: 25px;">Enter authorized admin credentials to access dashboard.</p>
                     <form id="adminLoginForm">
                         <div class="input-group" style="margin-bottom: 15px; text-align: left;">
                             <label for="adminEmail">Admin Email</label>
-                            <input type="email" id="adminEmail" value="admin@gmail.com" required>
+                            <input type="email" id="adminEmail" placeholder="Enter admin email address" required autocomplete="off">
                         </div>
                         <div class="input-group" style="text-align: left;">
                             <label for="adminPassword">Admin Password</label>
-                            <input type="password" id="adminPassword" value="admin123" required>
+                            <input type="password" id="adminPassword" placeholder="Enter admin password" required autocomplete="new-password">
                         </div>
                         <button type="submit" class="btn-primary" style="width: 100%; height: 50px; margin-top: 25px; font-size: 1.1rem; background: #334155;"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</button>
                     </form>

@@ -3069,6 +3069,8 @@ function toggleAdminLogin() {
         adminLoginCard.classList.remove('hidden');
         loginCard.classList.add('hidden');
         registerCard.classList.add('hidden');
+        const form = document.getElementById('adminLoginForm');
+        if (form) form.reset();
     } else {
         adminLoginCard.classList.add('hidden');
         loginCard.classList.remove('hidden');
