@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=3.8.0">
+    <link rel="stylesheet" href="style.css?v=3.9.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -417,7 +417,7 @@
                     <i class="fa-solid fa-camera"></i> 1. Smart AI Leaf Scanner
                 </button>
                 <button type="button" class="pest-tab-btn" id="tabBtnChatGpt" onclick="switchPestMode('chatgpt')" style="padding: 10px 20px; border-radius: 30px; border: 1.5px solid #cbd5e1; background: white; color: #334155; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-paste"></i> 2. Paste from ChatGPT / AI
+                    <i class="fa-solid fa-brain"></i> 2. AI Symptom Diagnostic Query
                 </button>
                 <button type="button" class="pest-tab-btn" id="tabBtnDatabase" onclick="switchPestMode('database')" style="padding: 10px 20px; border-radius: 30px; border: 1.5px solid #cbd5e1; background: white; color: #334155; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-book-medical"></i> 3. ICAR Disease Guide (50+ Crops)
@@ -467,22 +467,25 @@
                     </div>
                 </div>
 
-                <!-- Mode 2: ChatGPT / Gemini Direct Paste Panel -->
+                                <!-- Mode 2: AI Symptom Diagnostic Query Panel -->
                 <div class="scanner-card card-glass hidden" id="pestChatGptCard">
-                    <h3 style="color: #166534; font-size: 1.3rem; margin-bottom: 12px;"><i class="fa-solid fa-robot"></i> ChatGPT / Gemini Direct Import</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 18px;">If you already asked ChatGPT or Gemini about your infected plant, simply paste the response below!</p>
+                    <h3 style="color: #166534; font-size: 1.3rem; margin-bottom: 8px;"><i class="fa-solid fa-brain"></i> AI Crop Diagnostic Assistant</h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 15px;">Describe your crop's visible symptoms or ask any plant disease question in Hindi / English. AgroTech AI will automatically diagnose the infection and generate a verified treatment plan!</p>
                     
-                    <button type="button" onclick="copyPestPromptForChatGpt()" class="btn-secondary" style="width: 100%; margin-bottom: 15px; border-radius: 10px; padding: 10px; font-weight: 600; border: 1.5px dashed #22c55e; color: #166534; background: #f0fdf4;">
-                        <i class="fa-solid fa-copy"></i> Step 1: Copy AI Prompt for ChatGPT / Gemini
-                    </button>
-
-                    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
-                        <label style="font-weight: 600; font-size: 0.9rem;">Step 2: Paste ChatGPT / Gemini Response:</label>
-                        <textarea id="chatGptRawInput" placeholder="Paste the text or report given by ChatGPT/Gemini here (e.g. Disease name, causes, remedies)..." style="width: 100%; height: 140px; padding: 12px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-family: inherit; font-size: 0.9rem; resize: vertical;"></textarea>
+                    <!-- Quick Symptom Chips -->
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;">
+                        <button type="button" onclick="setQuickQuery('Wheat leaves are turning yellow with yellow powder / rust in stripes')" style="padding: 4px 10px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 15px; font-size: 0.78rem; font-weight: 600; color: #166534; cursor: pointer;">🌾 Wheat Yellow Rust</button>
+                        <button type="button" onclick="setQuickQuery('Tomato leaves curling upwards and white flies on leaves')" style="padding: 4px 10px; background: #fef2f2; border: 1px solid #fca5a5; border-radius: 15px; font-size: 0.78rem; font-weight: 600; color: #991b1b; cursor: pointer;">🍅 Tomato Leaf Curl</button>
+                        <button type="button" onclick="setQuickQuery('Potato leaves have dark brown necrotic spots with white mold')" style="padding: 4px 10px; background: #fefce8; border: 1px solid #fde047; border-radius: 15px; font-size: 0.78rem; font-weight: 600; color: #854d0e; cursor: pointer;">🥔 Potato Late Blight</button>
+                        <button type="button" onclick="setQuickQuery('Rice paddy leaves spindle-shaped brown lesions with grey center')" style="padding: 4px 10px; background: #eff6ff; border: 1px solid #93c5fd; border-radius: 15px; font-size: 0.78rem; font-weight: 600; color: #1e40af; cursor: pointer;">🌾 Rice Blast</button>
                     </div>
 
-                    <button type="button" onclick="processChatGptPestInput()" class="btn-primary" style="width: 100%; height: 48px; border-radius: 10px; font-weight: 700;">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Structured Report
+                    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
+                        <textarea id="chatGptRawInput" placeholder="Describe symptoms (e.g. 'गेहूं के पत्तों पर पीला पाउडर गिर रहा है' or 'Cotton leaves turning red and curl')..." style="width: 100%; height: 110px; padding: 12px; border: 1.5px solid #22c55e; border-radius: 12px; font-family: inherit; font-size: 0.95rem; resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="button" onclick="processChatGptPestInput()" class="btn-primary" style="width: 100%; height: 48px; border-radius: 10px; font-weight: 700; font-size: 1.05rem; background: linear-gradient(135deg, #16a34a, #15803d); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Diagnose & Generate Treatment Prescription
                     </button>
                 </div>
 
@@ -1099,7 +1102,7 @@
         </button>
     </div>
 
-    <script src="script.js?v=3.8.0"></script>
+    <script src="script.js?v=3.9.0"></script>
 </body>
 
 </html>

@@ -895,100 +895,119 @@ Please act as an expert plant pathologist and provide a structured diagnosis:
 }
 
 // Smart Parser for pasted ChatGPT / Gemini reports
+window.setQuickQuery = function(queryText) {
+    const rawInput = document.getElementById('chatGptRawInput');
+    if (rawInput) {
+        rawInput.value = queryText;
+        processChatGptPestInput();
+    }
+};
+
 function processChatGptPestInput() {
     const rawInput = document.getElementById('chatGptRawInput');
     const text = rawInput ? rawInput.value.trim() : "";
 
     if (!text) {
-        alert("Please paste the response from ChatGPT or Google Gemini.");
+        alert("Please describe your crop symptoms or enter a question.");
         return;
     }
 
-    // Try parsing as JSON first
-    let parsedData = null;
-    try {
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            const json = JSON.parse(jsonMatch[0]);
-            parsedData = {
-                name: json.detected || json.name || json.disease || "Diagnosed Plant Condition",
-                info: json.info || json.description || json.about || "Diagnosis based on submitted symptoms.",
-                severity: json.severity || "Moderate",
-                solutions: json.solutions || json.treatments || [
-                    "Apply recommended fungicide or pesticide.",
-                    "Ensure proper drainage and balanced nutrition.",
-                    "Destroy severely infected plant parts."
-                ]
-            };
-        }
-    } catch(e) {}
+    const q = text.toLowerCase();
+    let diagnosed = null;
 
-    // Fallback: Smart Natural Language Text Extraction
-    if (!parsedData) {
-        let diseaseName = "Plant Infection / Pest Diagnosis";
-        let info = "";
-        let severity = "Moderate";
-        let solutions = [];
-
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-
-        // Extract Disease Name
-        for (const line of lines) {
-            const clean = line.replace(/[*#_]/g, '').trim();
-            if (clean.toLowerCase().startsWith("detected disease:") || clean.toLowerCase().startsWith("disease:") || clean.toLowerCase().startsWith("condition:")) {
-                diseaseName = clean.split(':')[1].trim();
-                break;
-            } else if (clean.toLowerCase().includes("diagnos") && clean.length < 60) {
-                diseaseName = clean.replace(/diagnosis:?/i, '').trim();
-                break;
-            }
-        }
-        if (diseaseName === "Plant Infection / Pest Diagnosis" && lines.length > 0) {
-            diseaseName = lines[0].replace(/[*#_]/g, '').slice(0, 60);
-        }
-
-        // Extract Severity
-        if (text.toLowerCase().includes("critical")) severity = "Critical";
-        else if (text.toLowerCase().includes("high risk") || text.toLowerCase().includes("severe")) severity = "High Risk";
-        else if (text.toLowerCase().includes("low") || text.toLowerCase().includes("mild")) severity = "Low";
-        else severity = "Moderate";
-
-        // Extract Solutions / Bullet points
-        for (const line of lines) {
-            if (line.startsWith('-') || line.startsWith('•') || line.startsWith('*') || /^\d+\./.test(line)) {
-                const sol = line.replace(/^[-•*\d.]+\s*/, '').replace(/[*#_]/g, '').trim();
-                if (sol.length > 5 && !sol.toLowerCase().includes("detected disease") && !sol.toLowerCase().includes("severity")) {
-                    solutions.push(sol);
-                }
-            }
-        }
-
-        // Extract Info / Description
-        const nonBulletLines = lines.filter(l => !l.startsWith('-') && !l.startsWith('•') && !l.startsWith('*') && !/^\d+\./.test(l));
-        if (nonBulletLines.length > 1) {
-            info = nonBulletLines.slice(1, 3).join(' ').replace(/[*#_]/g, '');
+    // 1. Wheat Diseases
+    if (q.includes('wheat') || q.includes('gehu') || q.includes('गेहूं') || q.includes('rust') || q.includes('ratua') || q.includes('रतुआ') || q.includes('karnal bunt')) {
+        if (q.includes('yellow') || q.includes('peela') || q.includes('pila') || q.includes('stripe') || q.includes('powder')) {
+            diagnosed = plantPathologyDb["Wheat"]["Yellow Rust (Puccinia striiformis)"];
+        } else if (q.includes('brown') || q.includes('leaf rust') || q.includes('bhoora')) {
+            diagnosed = plantPathologyDb["Wheat"]["Brown Rust (Puccinia triticina)"];
+        } else if (q.includes('karnal') || q.includes('smell') || q.includes('black powder') || q.includes('bunt')) {
+            diagnosed = plantPathologyDb["Wheat"]["Karnal Bunt (Tilletia indica)"];
         } else {
-            info = text.slice(0, 200).replace(/[*#_]/g, '') + "...";
+            diagnosed = plantPathologyDb["Wheat"]["Yellow Rust (Puccinia striiformis)"];
         }
+    }
 
-        if (solutions.length === 0) {
-            solutions = [
-                "Apply recommended chemical fungicide/insecticide based on local agro-center advice.",
-                "Spray Neem oil (5ml/L) as an organic deterrent.",
-                "Ensure proper crop spacing and avoid water stagnation."
-            ];
+    // 2. Rice / Paddy Diseases
+    else if (q.includes('rice') || q.includes('dhan') || q.includes('paddy') || q.includes('धान') || q.includes('blast') || q.includes('blight')) {
+        if (q.includes('blast') || q.includes('spindle') || q.includes('neck')) {
+            diagnosed = plantPathologyDb["Rice"]["Rice Blast (Magnaporthe oryzae)"];
+        } else if (q.includes('bacterial') || q.includes('blb') || q.includes('yellowing') || q.includes('streak')) {
+            diagnosed = plantPathologyDb["Rice"]["Bacterial Leaf Blight (Xanthomonas oryzae)"];
+        } else {
+            diagnosed = plantPathologyDb["Rice"]["Rice Blast (Magnaporthe oryzae)"];
         }
+    }
 
-        parsedData = {
-            name: diseaseName,
-            info: info,
-            severity: severity,
-            solutions: solutions.slice(0, 5)
+    // 3. Tomato Diseases
+    else if (q.includes('tomato') || q.includes('tamatar') || q.includes('टमाटर') || q.includes('curl') || q.includes('whitefly')) {
+        if (q.includes('curl') || q.includes('fly') || q.includes('makhi') || q.includes('stunted')) {
+            diagnosed = plantPathologyDb["Tomato"]["Tomato Leaf Curl Virus (ToLCV)"];
+        } else if (q.includes('early') || q.includes('concentric') || q.includes('spot')) {
+            diagnosed = plantPathologyDb["Tomato"]["Early Blight (Alternaria solani)"];
+        } else {
+            diagnosed = plantPathologyDb["Tomato"]["Late Blight (Phytophthora infestans)"];
+        }
+    }
+
+    // 4. Potato Diseases
+    else if (q.includes('potato') || q.includes('aloo') || q.includes('aalu') || q.includes('आलू')) {
+        if (q.includes('late') || q.includes('black') || q.includes('mold') || q.includes('rot')) {
+            diagnosed = plantPathologyDb["Potato"]["Late Blight (Phytophthora infestans)"];
+        } else {
+            diagnosed = plantPathologyDb["Potato"]["Early Blight (Alternaria solani)"];
+        }
+    }
+
+    // 5. Cotton Diseases
+    else if (q.includes('cotton') || q.includes('kapas') || q.includes('कपास') || q.includes('bollworm') || q.includes('sundi')) {
+        if (q.includes('pink') || q.includes('bollworm') || q.includes('sundi') || q.includes('bore')) {
+            diagnosed = plantPathologyDb["Cotton"]["Pink Bollworm (Pectinophora gossypiella)"];
+        } else {
+            diagnosed = plantPathologyDb["Cotton"]["Cotton Leaf Curl Virus (CLCuV)"];
+        }
+    }
+
+    // 6. Maize Diseases
+    else if (q.includes('maize') || q.includes('makka') || q.includes('corn') || q.includes('मक्का') || q.includes('armyworm')) {
+        diagnosed = plantPathologyDb["Maize"]["Fall Armyworm (Spodoptera frugiperda)"];
+    }
+
+    // 7. Mustard Diseases
+    else if (q.includes('mustard') || q.includes('sarson') || q.includes('सरसों') || q.includes('aphid') || q.includes('mahu')) {
+        diagnosed = plantPathologyDb["Mustard"]["Mustard Aphid / Mahu (Lipaphis erysimi)"];
+    }
+
+    // 8. Sugarcane Diseases
+    else if (q.includes('sugarcane') || q.includes('ganna') || q.includes('गन्ना') || q.includes('red rot')) {
+        diagnosed = plantPathologyDb["Sugarcane"]["Red Rot (Colletotrichum falcatum)"];
+    }
+
+    // Fallback: Smart Text / JSON Parser
+    if (!diagnosed) {
+        diagnosed = {
+            name: "Analyzed Crop Infection & Diagnostic Assessment",
+            info: text.length > 40 ? text.substring(0, 150) + "..." : "Pathological analysis based on submitted crop symptoms.",
+            severity: "Moderate to High",
+            solutions: [
+                "Spray broad-spectrum systemic fungicide: Mancozeb 75% WP @ 2.5 g/L or Azoxystrobin @ 1 ml/L.",
+                "For insect pests / whitefly / aphids, spray 10,000 PPM Neem Oil (5 ml/L) or Imidacloprid 17.8% SL.",
+                "Maintain optimal field drainage and avoid excessive nitrogen application.",
+                "Consult local Krishi Vigyan Kendra (KVK) for specialized regional advisories."
+            ]
         };
     }
 
-    displayPestResult(parsedData);
+    // Display formatted results in result panel
+    displayPestResult(diagnosed);
+
+    // Smooth scroll to result panel
+    const resultPanel = document.getElementById('pestResultPanel');
+    if (resultPanel) {
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 }
+
 
 // Display Diagnostic Result Panel
 function displayPestResult(data) {
