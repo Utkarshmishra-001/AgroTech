@@ -3530,10 +3530,10 @@ function applyAccessControl() {
             
             sectionsToToggle.forEach(id => {
                 const sec = document.getElementById(id);
-                if (sec) sec.classList.add('hidden'); // Hide normal sections for Admin
+                if (sec) sec.classList.add('hidden');
             });
             if (adminDashboard) adminDashboard.classList.remove('hidden');
-            loadAdminData(); // Populate Admin Dashboard
+            loadAdminData();
         } else {
             // NORMAL USER MODE
             if (navLinksList) navLinksList.style.display = 'flex';
@@ -3548,7 +3548,17 @@ function applyAccessControl() {
             });
             if (adminDashboard) adminDashboard.classList.add('hidden');
 
-            // Auto-fill drone booking form with registered user's data (locked fields)
+            // Reset URL hash to root and scroll to top hero cleanly
+            try {
+                if (window.location.hash) {
+                    history.replaceState(null, document.title, window.location.pathname + window.location.search);
+                }
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+            } catch(e){}
+
+            // Auto-fill drone booking form with registered user's data
             const droneNameField = document.getElementById('droneName');
             const droneMobileField = document.getElementById('droneMobile');
             const droneAddressField = document.getElementById('droneAddress');
@@ -3558,7 +3568,7 @@ function applyAccessControl() {
             
             if (droneAddressField) {
                 droneAddressField.value = authUser.address || '';
-                droneAddressField.readOnly = false; // Allow changes for specific farm locations
+                droneAddressField.readOnly = false;
                 droneAddressField.style.backgroundColor = 'white';
                 droneAddressField.style.cursor = 'text';
                 droneAddressField.style.color = 'inherit';
@@ -3570,7 +3580,6 @@ function applyAccessControl() {
         // LOCKED STATE
         if (authSection) {
             authSection.classList.remove('hidden');
-            // Explicitly show Login card and hide others
             const loginCard = document.getElementById('loginCard');
             const registerCard = document.getElementById('registerCard');
             const adminLoginCard = document.getElementById('adminLoginCard');
