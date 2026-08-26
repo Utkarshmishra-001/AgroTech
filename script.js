@@ -4549,7 +4549,206 @@ if(droneForm) {
 // Soil Report Submissions and Pest Diagnostics are handled by their respective primary logic sections
 
 // Initial Access Control & UI Components Call
+
+// ============================================================================
+// 🌐 MULTILINGUAL LOCALIZATION & TRANSLATION ENGINE (HINDI / ENGLISH)
+// ============================================================================
+const translations = {
+    "en": {
+        "lang_btn": "🇮🇳 हिन्दी",
+        "nav_home": "Home",
+        "nav_advisory": "Crop Advisory",
+        "nav_soil": "Digital Soil Lab",
+        "nav_weather": "Weather",
+        "nav_market": "Live Market Price",
+        "nav_pest": "Pest Management",
+        "nav_schemes": "Govt Schemes",
+        "nav_drone": "Drone Service",
+        "nav_logout": "Logout",
+        "hero_title": "Precision Farming for a Greener Future",
+        "hero_subtitle": "Get real-time data-driven advisory for over 30 different crops to maximize yield and optimize resources.",
+        "btn_explore": "Explore Crops",
+        "btn_soil": "Soil Analysis",
+        "advisory_title": "Smart Crop Advisory",
+        "advisory_subtitle": "Select a crop to explore comprehensive cultivation guides and expert recommendations.",
+        "search_crop_ph": "Search for a crop (e.g., Rice, Wheat, Tomato)...",
+        "soil_title": "Digital Soil Lab",
+        "soil_subtitle": "Input your soil test parameters to get expert fertilizer recommendations for your targeted crop.",
+        "btn_analyze_soil": "Analyze Soil Health",
+        "btn_save_soil": "Save Analysis to History",
+        "weather_title": "Weather Monitoring",
+        "weather_subtitle": "Real-time satellite weather tracking & AI-driven agricultural planning.",
+        "weather_ph": "Enter City/Farm Location (e.g. Indore)",
+        "btn_update_weather": "Update Weather",
+        "btn_detect_loc": "Detect Location",
+        "market_title": "Live Mandi Prices & Market Trends",
+        "market_subtitle": "Real-time agricultural commodity prices powered by Agmarknet & Data.gov.in (Ministry of Agriculture & Farmers Welfare).",
+        "btn_get_prices": "Get Live Prices",
+        "pest_title": "AI Pest & Disease Diagnosis",
+        "pest_subtitle": "Instant AI Leaf Diagnostic Scanner, ICAR Pathology Database & Treatment Advisory for Indian Farmers (100% Free & No Setup Required).",
+        "tab_pest_1": "1. Smart AI Leaf Scanner",
+        "tab_pest_2": "2. AI Symptom Diagnostic Query",
+        "tab_pest_3": "3. ICAR Disease Guide (50+ Crops)",
+        "schemes_title": "Government Welfare Schemes",
+        "schemes_subtitle": "Explore beneficial agricultural subsidies, financial support, and crop insurance programs from the Government of India.",
+        "drone_title": "AgroTech Smart Drone Sprayer",
+        "drone_subtitle": "Book high-precision aerial spraying for pesticides, liquid fertilizers, and nutrients with 90% water saving.",
+        "btn_book_drone": "Request Drone Booking",
+        "chat_ph": "Ask about crops, soil, pests..."
+    },
+    "hi": {
+        "lang_btn": "🌐 English",
+        "nav_home": "मुख्य पृष्ठ",
+        "nav_advisory": "फसल सलाह",
+        "nav_soil": "मृदा प्रयोगशाला",
+        "nav_weather": "मौसम",
+        "nav_market": "लाइव मंडी भाव",
+        "nav_pest": "कीट व रोग निदान",
+        "nav_schemes": "सरकारी योजनाएं",
+        "nav_drone": "ड्रोन सेवा",
+        "nav_logout": "लॉगआउट",
+        "hero_title": "स्मार्ट तकनीक से सशक्त किसान, समृद्ध भारत",
+        "hero_subtitle": "30 से अधिक प्रमुख फसलों के लिए सटीक वैज्ञानिक सलाह, उर्वरक प्रबंधन और मौसम आधारित मार्गदर्शन प्राप्त करें।",
+        "btn_explore": "फसलें देखें",
+        "btn_soil": "मिट्टी जांचें",
+        "advisory_title": "स्मार्ट फसल कृषि सलाह",
+        "advisory_subtitle": "फसल की बुवाई, उपयुक्त मिट्टी, तापमान, पैदावार और सिंचाई की सम्पूर्ण वैज्ञानिक जानकारी प्राप्त करें।",
+        "search_crop_ph": "फसल खोजें (जैसे गेहूं, धान, टमाटर, आलू)...",
+        "soil_title": "डिजिटल मृदा परीक्षण प्रयोगशाला",
+        "soil_subtitle": "अपने खेत की मिट्टी के नाइट्रोजन (N), फास्फोरस (P), पोटाश (K) और pH की जांच कर सटीक खाद की मात्रा जानें।",
+        "btn_analyze_soil": "मिट्टी स्वास्थ्य एवं खाद की सिफारिश जांचें",
+        "btn_save_soil": "जांच रिपोर्ट सुरक्षित करें",
+        "weather_title": "लाइव मौसम एवं कृषि पूर्वानुमान",
+        "weather_subtitle": "सैटेलाइट आधारित रियल-टाइम मौसम, तापमान, आर्द्रता एवं AI फसल सिफारिश।",
+        "weather_ph": "अपना शहर या जिला दर्ज करें (जैसे इंदौर, भोपाल, लखनऊ)...",
+        "btn_update_weather": "मौसम देखें",
+        "btn_detect_loc": "स्थान पहचानें",
+        "market_title": "लाइव मंडी भाव एवं बाजार रुझान",
+        "market_subtitle": "भारत सरकार के Agmarknet व Data.gov.in (कृषि एवं किसान कल्याण मंत्रालय) द्वारा संचालित आधिकारिक लाइव मंडी दरें।",
+        "btn_get_prices": "लाइव भाव देखें",
+        "pest_title": "AI फसल रोग व कीट निदान",
+        "pest_subtitle": "पत्ती की फोटो स्कैनिंग, AI लक्षण विश्लेषण और ICAR द्वारा प्रमाणित अचूक दवा उपचार (100% मुफ्त)।",
+        "tab_pest_1": "1. स्मार्ट AI पत्ती स्कैनर",
+        "tab_pest_2": "2. AI लक्षण निदान व सवाल",
+        "tab_pest_3": "3. ICAR रोग निर्देशिका (50+ फसलें)",
+        "schemes_title": "प्रमुख सरकारी किसान कल्याण योजनाएं",
+        "schemes_subtitle": "भारत सरकार की प्रमुख किसान योजनाओं (PM-KISAN, PMFBY फसल बीमा, KCC, सब्सिडी) की जानकारी व आवेदन लिंक।",
+        "drone_title": "आधुनिक कृषि ड्रोन स्प्रेयर सेवा",
+        "drone_subtitle": "10 गुना तेजी और 90% पानी की बचत के साथ अपने खेत में कीटनाशक व नैनो यूरिया छिड़काव हेतु ड्रोन बुक करें।",
+        "btn_book_drone": "ड्रोन बुकिंग अनुरोध भेजें",
+        "chat_ph": "फसल, खाद, रोग या मंडी भाव के बारे में पूछें..."
+    }
+};
+
+let currentAppLanguage = localStorage.getItem('agrotech_lang') || 'en';
+
+window.toggleLanguage = function() {
+    currentAppLanguage = currentAppLanguage === 'en' ? 'hi' : 'en';
+    localStorage.setItem('agrotech_lang', currentAppLanguage);
+    applyLanguage(currentAppLanguage);
+};
+
+function applyLanguage(lang) {
+    const t = translations[lang] || translations["en"];
+    const btnLabel = document.getElementById('currentLangLabel');
+    if (btnLabel) btnLabel.textContent = t.lang_btn;
+
+    // Navigation Links
+    const navItems = document.querySelectorAll('#navLinksList li a');
+    if (navItems.length >= 9) {
+        navItems[0].textContent = t.nav_home;
+        navItems[1].textContent = t.nav_advisory;
+        navItems[2].textContent = t.nav_soil;
+        navItems[3].textContent = t.nav_weather;
+        navItems[4].textContent = t.nav_market;
+        navItems[5].textContent = t.nav_pest;
+        navItems[6].textContent = t.nav_schemes;
+        navItems[7].textContent = t.nav_drone;
+        navItems[8].innerHTML = `<i class="fa-solid fa-power-off"></i> ${t.nav_logout}`;
+    }
+
+    // Hero Section
+    const heroTitle = document.querySelector('.hero-title');
+    const heroSub = document.querySelector('.hero-subtitle');
+    const heroPrimary = document.querySelector('.btn-hero-primary');
+    const heroSecondary = document.querySelector('.btn-hero-secondary');
+    if (heroTitle) heroTitle.textContent = t.hero_title;
+    if (heroSub) heroSub.textContent = t.hero_subtitle;
+    if (heroPrimary) heroPrimary.textContent = t.btn_explore;
+    if (heroSecondary) heroSecondary.textContent = t.btn_soil;
+
+    // Advisory Section
+    const advTitle = document.querySelector('#advisory .section-title');
+    const advSub = document.querySelector('#advisory .section-subtitle');
+    const cropSearchInput = document.getElementById('cropSearch');
+    if (advTitle) advTitle.textContent = t.advisory_title;
+    if (advSub) advSub.textContent = t.advisory_subtitle;
+    if (cropSearchInput) cropSearchInput.placeholder = t.search_crop_ph;
+
+    // Soil Lab Section
+    const soilTitle = document.querySelector('#soil-lab .section-title');
+    const soilSub = document.querySelector('#soil-lab .section-subtitle');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const saveReportBtn = document.getElementById('saveReportBtn');
+    if (soilTitle) soilTitle.textContent = t.soil_title;
+    if (soilSub) soilSub.textContent = t.soil_subtitle;
+    if (analyzeBtn) analyzeBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> ${t.btn_analyze_soil}`;
+    if (saveReportBtn) saveReportBtn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> ${t.btn_save_soil}`;
+
+    // Weather Section
+    const weatherTitle = document.querySelector('#weather .section-title');
+    const weatherSub = document.querySelector('#weather .section-subtitle');
+    const farmLoc = document.getElementById('farmLocation');
+    const getWeatherBtn = document.getElementById('getWeatherBtn');
+    const detectBtn = document.getElementById('detectLocationBtn');
+    if (weatherTitle) weatherTitle.textContent = t.weather_title;
+    if (weatherSub) weatherSub.textContent = t.weather_subtitle;
+    if (farmLoc) farmLoc.placeholder = t.weather_ph;
+    if (getWeatherBtn) getWeatherBtn.innerHTML = `<i class="fa-solid fa-sync"></i> ${t.btn_update_weather}`;
+    if (detectBtn) detectBtn.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> ${t.btn_detect_loc}`;
+
+    // Market Section
+    const marketTitle = document.querySelector('#market .section-title');
+    const marketSub = document.querySelector('#market .section-subtitle');
+    const filterMarketBtn = document.getElementById('filterMarketBtn');
+    if (marketTitle) marketTitle.textContent = t.market_title;
+    if (marketSub) marketSub.innerHTML = t.market_subtitle;
+    if (filterMarketBtn) filterMarketBtn.innerHTML = `<i class="fa-solid fa-magnifying-glass"></i> ${t.btn_get_prices}`;
+
+    // Pest Section
+    const pestTitle = document.querySelector('#pest-mgmt .section-title');
+    const pestSub = document.querySelector('#pest-mgmt .section-subtitle');
+    const tab1 = document.getElementById('tabBtnPhoto');
+    const tab2 = document.getElementById('tabBtnChatGpt');
+    const tab3 = document.getElementById('tabBtnDatabase');
+    if (pestTitle) pestTitle.textContent = t.pest_title;
+    if (pestSub) pestSub.textContent = t.pest_subtitle;
+    if (tab1) tab1.innerHTML = `<i class="fa-solid fa-camera"></i> ${t.tab_pest_1}`;
+    if (tab2) tab2.innerHTML = `<i class="fa-solid fa-brain"></i> ${t.tab_pest_2}`;
+    if (tab3) tab3.innerHTML = `<i class="fa-solid fa-book-medical"></i> ${t.tab_pest_3}`;
+
+    // Schemes Section
+    const schemesTitle = document.querySelector('#schemes .section-title');
+    const schemesSub = document.querySelector('#schemes .section-subtitle');
+    if (schemesTitle) schemesTitle.textContent = t.schemes_title;
+    if (schemesSub) schemesSub.textContent = t.schemes_subtitle;
+
+    // Drone Section
+    const droneTitle = document.querySelector('#drone-service .section-title');
+    const droneSub = document.querySelector('#drone-service .section-subtitle');
+    const droneSubmitBtn = document.querySelector('#droneBookingForm button[type="submit"]');
+    if (droneTitle) droneTitle.textContent = t.drone_title;
+    if (droneSub) droneSub.textContent = t.drone_subtitle;
+    if (droneSubmitBtn) droneSubmitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> ${t.btn_book_drone}`;
+
+    // Chatbot Input
+    const chatInput = document.getElementById('userChatMessage');
+    if (chatInput) chatInput.placeholder = t.chat_ph;
+}
+
+
 document.addEventListener('DOMContentLoaded', async () => {
+    try { applyLanguage(currentAppLanguage); } catch(e){}
     try { initPersistentAccounts(); } catch(e){}
     try { renderCrops(getMergedCrops()); } catch(e){}
     try { populateCropSelect(); } catch(e){}
