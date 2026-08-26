@@ -4640,6 +4640,33 @@ const translations = {
     }
 };
 
+
+window.selectAppLanguage = function(lang) {
+    currentAppLanguage = lang;
+    localStorage.setItem('agrotech_lang', lang);
+    applyLanguage(lang);
+
+    const btnEn = document.getElementById('langChoiceEn');
+    const btnHi = document.getElementById('langChoiceHi');
+    if (btnEn && btnHi) {
+        if (lang === 'hi') {
+            btnHi.style.background = '#22c55e';
+            btnHi.style.color = 'white';
+            btnHi.style.borderColor = '#22c55e';
+            btnEn.style.background = 'white';
+            btnEn.style.color = '#334155';
+            btnEn.style.borderColor = '#cbd5e1';
+        } else {
+            btnEn.style.background = '#22c55e';
+            btnEn.style.color = 'white';
+            btnEn.style.borderColor = '#22c55e';
+            btnHi.style.background = 'white';
+            btnHi.style.color = '#334155';
+            btnHi.style.borderColor = '#cbd5e1';
+        }
+    }
+};
+
 let currentAppLanguage = localStorage.getItem('agrotech_lang') || 'en';
 
 window.toggleLanguage = function() {

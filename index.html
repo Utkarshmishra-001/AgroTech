@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=4.2.0">
+    <link rel="stylesheet" href="style.css?v=4.3.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -36,28 +36,7 @@
                 <li><a href="#" onclick="logoutUser()" id="logoutBtn" style="color: #ef4444;"><i class="fa-solid fa-power-off"></i> Logout</a></li>
             </ul>
 
-                    <div class="lang-switch-wrapper" style="display: flex; align-items: center; gap: 10px;">
-                <button type="button" id="langToggleBtn" onclick="toggleLanguage()" style="background: rgba(34, 197, 94, 0.12); color: #166534; border: 1.5px solid #22c55e; border-radius: 20px; padding: 6px 14px; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.3s; box-shadow: 0 2px 6px rgba(0,0,0,0.06);" title="Switch Language / भाषा बदलें">
-                    <i class="fa-solid fa-language" style="font-size: 1.1rem; color: #15803d;"></i>
-                    <span id="currentLangLabel">🇮🇳 हिन्दी</span>
-                </button>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section hidden">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h2 id="welcomeUserMsg" class="hidden animate-up" style="color: black; font-size: 2.2rem; font-weight: 800; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.1);"></h2>
-            <h1 class="hero-title animate-up">Precision Farming for a Greener Future</h1>
-            <p class="hero-subtitle animate-up delay-1">Get real-time data-driven advisory for over 10 different crops
-                to maximize yield and optimize resources.</p>
-            <div class="hero-btns animate-up delay-2">
-                <a href="#advisory" class="btn-hero-primary">Explore Crops</a>
-                <a href="#soil-lab" class="btn-hero-secondary">Soil Analysis</a>
-            </div>
-        </div>
+                    
     </section>
 
     <!-- Crop Advisory Grid -->
@@ -682,10 +661,27 @@
     <section id="auth" class="auth-section">
         <div class="container">
             <div class="auth-wrapper">
-                                <!-- Login Form -->
+                                                <!-- Login Form -->
                 <div id="loginCard" class="auth-card card-glass">
                     <h3 style="font-size: 2rem; color: var(--primary-dark);"><i class="fa-solid fa-lock"></i> Welcome Back</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 25px;">Login to access your personalized farming dashboard.</p>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Login to access your personalized farming dashboard.</p>
+                    
+                    <!-- Preferred Language Selection at Login -->
+                    <div style="margin-bottom: 20px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px 15px; text-align: left;">
+                        <label style="font-size: 0.85rem; font-weight: 700; color: #166534; display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                            <i class="fa-solid fa-language" style="font-size: 1.1rem; color: #15803d;"></i>
+                            <span>Select Language / अपनी भाषा चुनें:</span>
+                        </label>
+                        <div style="display: flex; gap: 10px;">
+                            <button type="button" id="langChoiceEn" onclick="selectAppLanguage('en')" style="flex: 1; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #22c55e; background: #22c55e; color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: 0.2s;">
+                                🌐 English
+                            </button>
+                            <button type="button" id="langChoiceHi" onclick="selectAppLanguage('hi')" style="flex: 1; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; background: white; color: #334155; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: 0.2s;">
+                                🇮🇳 हिन्दी (Hindi)
+                            </button>
+                        </div>
+                    </div>
+
                     <form id="loginForm" onsubmit="handleUserLoginSubmit(event); return false;">
                         <div class="input-group" style="margin-bottom: 15px; text-align: left;">
                             <label for="loginEmail">Email ID</label>
@@ -1108,7 +1104,7 @@
         </button>
     </div>
 
-    <script src="script.js?v=4.2.0"></script>
+    <script src="script.js?v=4.3.0"></script>
 </body>
 
 </html>
