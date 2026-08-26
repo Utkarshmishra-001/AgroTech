@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=4.6.0">
+    <link rel="stylesheet" href="style.css?v=4.7.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -35,8 +35,21 @@
                 <li><a href="#drone-service">Drone Service</a></li>
                 <li><a href="#" onclick="logoutUser()" id="logoutBtn" style="color: #ef4444;"><i class="fa-solid fa-power-off"></i> Logout</a></li>
             </ul>
+        </nav>
+    </header>
 
-                    
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section hidden">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2 id="welcomeUserMsg" class="hidden animate-up" style="color: black; font-size: 2.2rem; font-weight: 800; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.1);"></h2>
+            <h1 class="hero-title animate-up">Precision Farming for a Greener Future</h1>
+            <p class="hero-subtitle animate-up delay-1">Get real-time data-driven advisory for over 30 different crops to maximize yield and optimize resources.</p>
+            <div class="hero-btns animate-up delay-2">
+                <a href="#advisory" class="btn-hero-primary">Explore Crops</a>
+                <a href="#soil-lab" class="btn-hero-secondary">Soil Analysis</a>
+            </div>
+        </div>
     </section>
 
     <!-- Crop Advisory Grid -->
@@ -1104,7 +1117,7 @@
         </button>
     </div>
 
-    <script src="script.js?v=4.6.0"></script>
+    <script src="script.js?v=4.7.0"></script>
 </body>
 
 </html>

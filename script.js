@@ -2138,6 +2138,27 @@ const mockWeatherData = {
 // ============================================================================
 // 🌦️ LIVE SATELLITE WEATHER & GEOLOCATION API ENGINE
 // ============================================================================
+function updateWeatherUI(data, cityName) {
+  if (!data) return;
+  try { currentWeatherData = data; } catch(e){}
+
+  const currentCity = document.getElementById('currentCity');
+  const mainTemp = document.getElementById('mainTemp');
+  const weatherDesc = document.getElementById('weatherDesc');
+  const humidity = document.getElementById('humidity');
+  const windSpeed = document.getElementById('windSpeed');
+  const rainChance = document.getElementById('rainChance');
+  const mainWeatherIcon = document.getElementById('mainWeatherIcon');
+
+  if (currentCity) currentCity.textContent = `${cityName || 'Your Farm'}, IN`;
+  if (mainTemp) mainTemp.textContent = data.temp || '28°C';
+  if (weatherDesc) weatherDesc.textContent = data.desc || 'Clear Skies';
+  if (humidity) humidity.textContent = data.humidity || '45%';
+  if (windSpeed) windSpeed.textContent = data.wind || '12 km/h';
+  if (rainChance) rainChance.textContent = data.rain || '10%';
+  if (mainWeatherIcon) mainWeatherIcon.className = data.icon || 'fa-solid fa-sun';
+}
+
 async function updateWeather(city) {
   const targetCity = (city || "Indore").trim();
   const cityElem = document.getElementById('currentCity');
