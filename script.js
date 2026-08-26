@@ -3754,6 +3754,19 @@ if (loginForm) {
     });
 }
 
+window.quickFillLogin = function(email, pwd) {
+    const emailField = document.getElementById('loginEmail');
+    const pwdField = document.getElementById('loginPassword');
+    if (emailField) emailField.value = email;
+    if (pwdField) pwdField.value = pwd;
+    
+    // Auto-trigger submit
+    const form = document.getElementById('loginForm');
+    if (form) {
+        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+    }
+};
+
 function handleAdminLogin() {
     const emailInput = document.getElementById('admUserKey') || document.getElementById('adminEmail');
     const pwdInput = document.getElementById('admPassKey') || document.getElementById('adminPassword');
