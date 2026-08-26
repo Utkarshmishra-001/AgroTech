@@ -78,6 +78,141 @@ function initPersistentAccounts() {
 }
 initPersistentAccounts();
 
+// ============================================================================
+// 🔐 TOP-LEVEL GLOBAL AUTHENTICATION & ACCESS CONTROL (HOISTED)
+// ============================================================================
+window.loginAsDemoFarmer = function() {
+    console.log("⚡ Logging in as Demo Farmer...");
+    const demoUser = {
+        name: "Kisan Demo",
+        email: "demo@gmail.com",
+        mobile: "9876543210",
+        aadhar: "123456789012",
+        address: "Indore, Madhya Pradesh"
+    };
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(demoUser));
+    applyAccessControl();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.handleUserLoginSubmit = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const emailInput = document.getElementById('loginEmail');
+    const pwdInput = document.getElementById('loginPassword');
+    
+    const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+    const pwd = pwdInput ? pwdInput.value.trim() : '';
+
+    if (!email || !pwd) {
+        alert("Please enter both Email and Password.");
+        return false;
+    }
+
+    // 1. Admin login check
+    if (email === 'admin@gmail.com' && pwd === 'admin123') {
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({ name: 'Admin', email: 'admin@gmail.com' }));
+        if (emailInput) emailInput.value = '';
+        if (pwdInput) pwdInput.value = '';
+        applyAccessControl();
+        return false;
+    }
+
+    // 2. Demo shortcut
+    if (email === 'demo@gmail.com' && (pwd === 'demo123' || pwd === 'demo')) {
+        window.loginAsDemoFarmer();
+        return false;
+    }
+
+    // 3. Instant Local & Persistent Accounts Check (0ms latency)
+    let localUsers = [];
+    try {
+        localUsers = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
+    } catch(err) { localUsers = []; }
+
+    let allKnownUsers = [...localUsers, ...SEED_REGISTERED_USERS];
+    const foundUser = allKnownUsers.find(u => u && u.email && u.email.toLowerCase() === email && String(u.pwd).trim() === pwd);
+
+    if (foundUser) {
+        const safeUser = { ...foundUser };
+        delete safeUser.pwd;
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
+        if (emailInput) emailInput.value = '';
+        if (pwdInput) pwdInput.value = '';
+        applyAccessControl();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return false;
+    }
+
+    // 4. If invalid
+    alert(`Login Failed: Incorrect email or password.\n\nPlease check your credentials or click 'Try with Demo Farmer Account (1-Click)' below.`);
+    return false;
+};
+
+window.toggleAuthForms = function() {
+    const loginCard = document.getElementById('loginCard');
+    const registerCard = document.getElementById('registerCard');
+    const adminLoginCard = document.getElementById('adminLoginCard');
+    if (!loginCard || !registerCard) return;
+    
+    if (loginCard.classList.contains('hidden')) {
+        loginCard.classList.remove('hidden');
+        registerCard.classList.add('hidden');
+    } else {
+        loginCard.classList.add('hidden');
+        registerCard.classList.remove('hidden');
+    }
+    if (adminLoginCard) adminLoginCard.classList.add('hidden');
+};
+
+window.toggleAdminLogin = function() {
+    const loginCard = document.getElementById('loginCard');
+    const registerCard = document.getElementById('registerCard');
+    const adminLoginCard = document.getElementById('adminLoginCard');
+    if (!adminLoginCard) return;
+    
+    if (adminLoginCard.classList.contains('hidden')) {
+        adminLoginCard.classList.remove('hidden');
+        if (loginCard) loginCard.classList.add('hidden');
+        if (registerCard) registerCard.classList.add('hidden');
+        
+        const wipeFields = () => {
+            const u = document.getElementById('admUserKey');
+            const p = document.getElementById('admPassKey');
+            if (u) u.value = '';
+            if (p) p.value = '';
+        };
+        wipeFields();
+        setTimeout(wipeFields, 50);
+    } else {
+        adminLoginCard.classList.add('hidden');
+        if (loginCard) loginCard.classList.remove('hidden');
+        if (registerCard) registerCard.classList.add('hidden');
+    }
+};
+
+window.handleAdminLogin = function() {
+    const emailInput = document.getElementById('admUserKey') || document.getElementById('adminEmail');
+    const pwdInput = document.getElementById('admPassKey') || document.getElementById('adminPassword');
+
+    const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+    const pwd = pwdInput ? pwdInput.value : '';
+
+    if (email === 'admin@gmail.com' && pwd === 'admin123') {
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({ name: 'Admin', email: 'admin@gmail.com' }));
+        if (emailInput) emailInput.value = '';
+        if (pwdInput) pwdInput.value = '';
+        applyAccessControl();
+    } else {
+        alert('Invalid Admin Credentials!');
+    }
+};
+
+window.logoutUser = function() {
+    localStorage.removeItem(CURRENT_USER_KEY);
+    applyAccessControl();
+};
+
+
 
 // 1. Unified Crops (Built-in + Admin LocalStorage + Backend Cloud)
 async function getAllMergedAdminCrops() {
@@ -3014,29 +3149,7 @@ if (farmAcreageInput) {
 }
 
 
-// Initializing
-initAdvisoryScrollReveal(); // Replaced direct call with scroll trigger
-populateCropSelect();
-renderHistory();
-renderPestHistory();
-setCurrentDate();
-initAgmarknetControls();
-renderSchemes();
-populateDroneCrops();
-initWeatherAutoDetection();
-
-// Default View
-setTimeout(() => {
-  if (mpDistrictSelect) {
-    mpDistrictSelect.value = "Indore";
-    mpDistrictSelect.dispatchEvent(new Event('change'));
-    setTimeout(() => {
-      mpMandiSelect.value = "Choithram Mandi";
-      renderMPPrices("Indore", "Choithram Mandi");
-    }, 100);
-  }
-}, 500);
-
+// Initializing moved to safe DOMContentLoaded
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
   const header = document.querySelector('.header');

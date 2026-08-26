@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=3.3.0">
+    <link rel="stylesheet" href="style.css?v=3.5.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -673,11 +673,11 @@
     <section id="auth" class="auth-section">
         <div class="container">
             <div class="auth-wrapper">
-                <!-- Login Form -->
+                                <!-- Login Form -->
                 <div id="loginCard" class="auth-card card-glass">
                     <h3 style="font-size: 2rem; color: var(--primary-dark);"><i class="fa-solid fa-lock"></i> Welcome Back</h3>
                     <p style="color: var(--text-muted); margin-bottom: 25px;">Login to access your personalized farming dashboard.</p>
-                    <form id="loginForm">
+                    <form id="loginForm" onsubmit="handleUserLoginSubmit(event); return false;">
                         <div class="input-group" style="margin-bottom: 15px; text-align: left;">
                             <label for="loginEmail">Email ID</label>
                             <input type="email" id="loginEmail" placeholder="Enter your email (e.g. demo@gmail.com)" required autocomplete="username">
@@ -685,15 +685,15 @@
                         <div class="input-group" style="text-align: left;">
                             <label for="loginPassword">Password</label>
                             <input type="password" id="loginPassword" placeholder="Enter your password (e.g. demo123)" required autocomplete="current-password">
-                            <small style="color: var(--text-muted); margin-top: 5px; display: block;"><i class="fa-solid fa-info-circle"></i> For farmers: DOB (DDMMYYYY) or your chosen password.</small>
+                            <small style="color: var(--text-muted); margin-top: 5px; display: block;"><i class="fa-solid fa-info-circle"></i> For farmers: DOB (DDMMYYYY) or your password.</small>
                         </div>
-                        <button type="submit" class="btn-primary" style="width: 100%; height: 50px; margin-top: 20px; font-size: 1.1rem;"><i class="fa-solid fa-right-to-bracket"></i> Secure Login</button>
+                        <button type="button" id="loginSubmitBtn" onclick="handleUserLoginSubmit(event)" class="btn-primary" style="width: 100%; height: 50px; margin-top: 20px; font-size: 1.1rem; cursor: pointer;"><i class="fa-solid fa-right-to-bracket"></i> Secure Login</button>
                     </form>
 
                     <!-- Clean 1-Click Demo Login -->
                     <div style="margin-top: 18px; text-align: center;">
-                        <button type="button" onclick="loginAsDemoFarmer()" style="width: 100%; height: 46px; background: #f0fdf4; color: #166534; border: 1.5px dashed #22c55e; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                            <i class="fa-solid fa-seedling" style="color: #22c55e;"></i> Try with Demo Farmer Account (1-Click)
+                        <button type="button" id="demoLoginBtn" onclick="loginAsDemoFarmer()" style="width: 100%; height: 48px; background: #f0fdf4; color: #166534; border: 2px dashed #22c55e; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-seedling" style="color: #22c55e; font-size: 1.2rem;"></i> Try with Demo Farmer Account (1-Click)
                         </button>
                     </div>
 
@@ -1099,7 +1099,7 @@
         </button>
     </div>
 
-    <script src="script.js?v=3.3.0"></script>
+    <script src="script.js?v=3.5.0"></script>
 </body>
 
 </html>
