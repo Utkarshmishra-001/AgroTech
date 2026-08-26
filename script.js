@@ -3683,39 +3683,61 @@ if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-        const pwd = document.getElementById('loginPassword').value;
+        const pwd = document.getElementById('loginPassword').value.trim();
 
         const btn = e.target.querySelector('button');
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Logging in...';
         btn.disabled = true;
 
-        let userObj = null;
+        // 1. Direct Admin Access via Main Form
+        if (email === 'admin@gmail.com' && pwd === 'admin123') {
+            localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({ name: 'Admin', email: 'admin@gmail.com' }));
+            loginForm.reset();
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            applyAccessControl();
+            return;
+        }
 
-        // Try Backend API First
+        // 2. Instant Local-First Verification (0ms latency, works offline & online)
+        let localUsers = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
+        // Also combine with seed accounts
+        let allKnownUsers = [...localUsers, ...SEED_REGISTERED_USERS];
+        const foundUser = allKnownUsers.find(u => u && u.email && u.email.toLowerCase() === email && String(u.pwd).trim() === pwd);
+
+        if (foundUser) {
+            const safeUser = { ...foundUser };
+            delete safeUser.pwd;
+            localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
+            loginForm.reset();
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            applyAccessControl();
+            setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+            return;
+        }
+
+        // 3. Fast Backend Cloud API check (with 3-second timeout)
+        let userObj = null;
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3500);
+
             const response = await fetch(`${BACKEND_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, pwd })
+                body: JSON.stringify({ email, pwd }),
+                signal: controller.signal
             });
+            clearTimeout(timeoutId);
 
             if (response.ok) {
                 const result = await response.json();
                 userObj = result.user;
             }
         } catch (err) {
-            console.log("Backend offline, checking local storage for login...");
-        }
-
-        // Local Storage / Demo Account Fallback
-        if (!userObj) {
-            const localUsers = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
-            const foundUser = localUsers.find(u => u.email === email && u.pwd === pwd);
-            if (foundUser) {
-                userObj = { ...foundUser };
-                delete userObj.pwd;
-            }
+            console.log("Backend offline or timed out, login checked locally.");
         }
 
         btn.innerHTML = originalText;
@@ -3727,7 +3749,7 @@ if (loginForm) {
             applyAccessControl();
             setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
         } else {
-            alert("Login Failed: Incorrect email or password.\n\nTip: You can use the Demo Farmer account:\nEmail: demo@gmail.com\nPassword: demo123");
+            alert("Login Failed: Incorrect email or password.\\n\\nPlease check your credentials or register a new account.\\n\\nDemo Account:\\nEmail: demo@gmail.com\\nPassword: demo123");
         }
     });
 }
