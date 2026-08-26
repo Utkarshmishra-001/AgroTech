@@ -1004,7 +1004,7 @@ function processChatGptPestInput() {
     // Smooth scroll to result panel
     const resultPanel = document.getElementById('pestResultPanel');
     if (resultPanel) {
-        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (resultPanel && typeof resultPanel.scrollIntoView === 'function') { try { if (resultPanel && typeof resultPanel.scrollIntoView === "function") { try { resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch(e){} } } catch(e){} }
     }
 }
 
@@ -1046,7 +1046,7 @@ function displayPestResult(data) {
     };
 
     resultPanel.classList.remove('hidden');
-    resultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (resultPanel && typeof resultPanel.scrollIntoView === "function") { try { resultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){} }
 }
 
 
@@ -1969,7 +1969,7 @@ function displayResults(cropName, recs, isDeficient, params) {
   }
 
   // Scroll to results
-  analysisResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (analysisResult && typeof analysisResult.scrollIntoView === "function") { try { analysisResult.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){} }
 }
 
 // Saving & History Logic (Updated for MongoDB)
@@ -2823,7 +2823,7 @@ analyzePestBtn.addEventListener('click', async () => {
     }
     scanLine.style.display = 'none';
     pestResultPanel.classList.remove('hidden');
-    pestResultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (pestResultPanel && typeof pestResultPanel.scrollIntoView === "function") { try { pestResultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){} }
     analyzePestBtn.innerHTML = '<i class="fa-solid fa-check"></i> Scan Complete';
     analyzePestBtn.disabled = false;
   }
@@ -2953,7 +2953,7 @@ window.viewSavedPestReport = (id) => {
     if (pestPreviewArea) pestPreviewArea.classList.remove('hidden');
 
     pestResultPanel.classList.remove('hidden');
-    pestResultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (pestResultPanel && typeof pestResultPanel.scrollIntoView === "function") { try { pestResultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){} }
     currentPestAnalysis = report;
   }
 };
@@ -4333,7 +4333,7 @@ function editAdminScheme(id) {
     document.getElementById('schemeEligibility').value = s.eligibility || '';
     document.getElementById('schemeFormTitle').innerText = 'Edit Government Scheme';
 
-    formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (formContainer && typeof formContainer.scrollIntoView === "function") { try { formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){} }
 }
 
 function deleteAdminScheme(id) {
@@ -4715,7 +4715,7 @@ function applyLanguage(lang) {
     // Soil Lab Section
     const soilTitle = document.querySelector('#soil-lab .section-title');
     const soilSub = document.querySelector('#soil-lab .section-subtitle');
-    const analyzeBtn = document.getElementById('analyzeBtn');
+    const analyzeBtn = document.getElementById('analyzeBtn') || document.querySelector('.btn-analyze');
     const saveReportBtn = document.getElementById('saveReportBtn');
     if (soilTitle) soilTitle.textContent = t.soil_title;
     if (soilSub) soilSub.textContent = t.soil_subtitle;
