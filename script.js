@@ -366,14 +366,14 @@ function saveGeminiApiKey() {
         return;
     }
     localStorage.setItem('agrotech_gemini_api_key', key);
-    updateApiKeyUi();
+    
     closeApiKeyModal();
     alert("✓ Google Gemini API Key saved successfully! Live AI image diagnosis and AgroBot are now active.");
 }
 
 function clearGeminiApiKey() {
     localStorage.removeItem('agrotech_gemini_api_key');
-    updateApiKeyUi();
+    
     closeApiKeyModal();
     alert("Gemini API Key removed. Standalone & ChatGPT Paste modes will be used.");
 }
@@ -3135,19 +3135,206 @@ function updateChatMessage(id, newText) {
   }
 }
 
+
+// ============================================================================
+// 🤖 AGROBOT ADVANCED AGRONOMY & AGRICULTURAL AI KNOWLEDGE ENGINE
+// ============================================================================
 function getAgroBotResponse(input) {
-  const msg = input.toLowerCase();
-  
-  if (msg.includes('hello') || msg.includes('hi')) return "नमस्ते! I'm AgroBot. How can I help you today?";
-  if (msg.includes('crop')) return "I can help with crop advisory! Which crop are you interested in? Wheat, Rice, and Cotton are popular ones right now.";
-  if (msg.includes('soil')) return "For soil health, I recommend regular testing. Our 'Digital Soil Lab' above can help you with specific fertilizer amounts!";
-  if (msg.includes('pest') || msg.includes('insect')) return "Oh, pests can be tricky. Try using our 'AI Pest Scanner' to upload a photo for instant identification.";
-  if (msg.includes('drone')) return "Drone spraying is very efficient! You can book a slot in our 'Drone Sprayer' section.";
-  if (msg.includes('mandi') || msg.includes('price')) return "You can check real-time mandi prices for Madhya Pradesh in our 'Live Market Access' section.";
-  if (msg.includes('weather')) return "We have live weather monitoring! Check the 'Weather' card for current conditions in your city.";
-  if (msg.includes('thank')) return "You're welcome! Happy farming! 🌾";
-  
-  return "That's an interesting question! Since my full AI powers require an API key to be inserted by the developer, I can currently only answer basic queries about our platform's sections like advisory, soil lab, and market prices.";
+  const q = input.toLowerCase().trim();
+
+  // Greetings & Identity (Hindi & English)
+  if (q.includes('hello') || q.includes('hi') || q.includes('hey') || q.includes('namaste') || q.includes('नमस्ते') || q.includes('ram ram') || q.includes('pranam')) {
+    return `🙏 **नमस्ते किसान भाई / Welcome!**
+
+मैं **AgroBot** हूँ, आपका 24x7 स्मार्ट कृषि मित्र। आप मुझसे फसलों की बुवाई, खाद की मात्रा (Urea/DAP), कीट व रोग नियंत्रण, सरकारी योजनाएं, मौसम या मंडी भाव के बारे में कभी भी पूछ सकते हैं।
+
+*आप किस फसल या समस्या के बारे में जानना चाहते हैं?*`;
+  }
+
+  // Gehun / Wheat
+  if (q.includes('wheat') || q.includes('gehu') || q.includes('gehun') || q.includes('गेहूं') || q.includes('गेहू')) {
+    if (q.includes('rust') || q.includes('peela') || q.includes('pila') || q.includes('gerui') || q.includes('रोग') || q.includes('dawa')) {
+      return `🌾 **गेहूं में पीला रतुआ / रस्ट (Yellow Rust) का उपचार:**
+
+1. **दवा:** प्रोपिकोनाज़ोल 25% EC (Tilt) @ 1 मिली प्रति लीटर पानी (या 500 मिली प्रति हेक्टेयर 500L पानी में) का छिड़काव करें।
+2. यूरिया का अत्यधिक प्रयोग न करें।
+3. खेत में पानी की उचित निकासी रखें।
+4. रोगरोधी किस्में (HD-3086, DBW-187, PBW-725) लगाएं।`;
+    }
+    if (q.includes('khad') || q.includes('fertilizer') || q.includes('urea') || q.includes('dap') || q.includes('dose')) {
+      return `🌾 **गेहूं के लिए संतुलित खाद की मात्रा (प्रति एकड़):**
+
+- **DAP:** 50-55 किग्रा (बुवाई के समय)
+- **MOP (पोटाश):** 20-25 किग्रा (बुवाई के समय)
+- **Urea:** 90-100 किग्रा (3 बार में: 1/3 बुवाई पर, 1/3 पहले पानी पर CRI स्टेज, 1/3 दूसरे पानी पर)
+- **Zinc Sulfate (21%):** 10 किग्रा प्रति एकड़ अवश्य डालें।`;
+    }
+    return `🌾 **गेहूं (Wheat) की उन्नत खेती गाइड:**
+
+- **बुवाई का सही समय:** 1 से 25 नवंबर (समय पर बुवाई), 25 नवंबर से 15 दिसंबर (पछेती)
+- **उन्नत किस्में:** HD-3086, DBW-187 (Karan Vandana), PBW-550, GW-322
+- **तापमान:** 15°C - 25°C
+- **सिंचाई:** पहली सिंचाई बुवाई के 20-25 दिन बाद (CRI स्टेज) बहुत जरूरी है।`;
+  }
+
+  // Dhan / Rice / Paddy
+  if (q.includes('rice') || q.includes('dhan') || q.includes('paddy') || q.includes('धान') || q.includes('चावल')) {
+    if (q.includes('blast') || q.includes('blight') || q.includes('jhulsa') || q.includes('रोग') || q.includes('keeda')) {
+      return `🌾 **धान के प्रमुख रोग और रोकथाम:**
+
+1. **ब्लास्ट (झुलसा रोग):** ट्राइसाइक्लाजोल 75% WP @ 0.6 ग्राम/लीटर पानी में घोलकर छिड़कें।
+2. **बैक्टीरियल लीफ ब्लाइट (BLB):** कॉपर ऑक्सीक्लोराइड (2.5 ग्राम/L) + स्ट्रेप्टोसाइक्लिन (0.1 ग्राम/L) का छिड़काव करें।
+3. **तना छेदक (Stem Borer):** क्लोरेंट्रानिलिप्रोल 0.4% GR (Ferterra) @ 4 किग्रा/एकड़ डालें।`;
+    }
+    return `🌾 **धान (Paddy) की आधुनिक खेती:**
+
+- **रोपाई का समय:** जून से जुलाई (खरीफ)
+- **उन्नत किस्में:** पूसा बासमती 1121, पूसा 1509, IR-64, PR-126
+- **उर्वरक प्रति एकड़:** 45 किग्रा DAP, 25 किग्रा MOP, 100 किग्रा यूरिया (3 किश्तों में), 10 किग्रा जिंक सल्फेट।
+- **पानी:** कल्ले फूटते समय और बाली निकलते समय खेत में 2-3 इंच पानी रखें।`;
+  }
+
+  // Tamatar / Tomato
+  if (q.includes('tomato') || q.includes('tamatar') || q.includes('टमाटर')) {
+    if (q.includes('blight') || q.includes('curl') || q.includes('pila') || q.includes('leaf curl') || q.includes('रोग')) {
+      return `🍅 **टमाटर के रोग और अचूक समाधान:**
+
+1. **अगेती/पिछेती झुलसा (Blight):** रिडोमिल गोल्ड (Metalaxyl + Mancozeb) @ 2.5 ग्राम/लीटर या मैनकोज़ेब 75% WP छिड़कें।
+2. **पत्ती मरोड़ रोग (Leaf Curl Virus):** यह सफेद मक्खी (Whitefly) से फैलता है। एसिटामिप्रिड 20% SP @ 0.5 ग्राम/L या इमिडाक्लोप्रिड का छिड़काव करें और पीले चिपचिपे ट्रैप (Yellow Sticky Traps) लगाएं।`;
+    }
+    return `🍅 **टमाटर की सफल खेती:**
+
+- **बुवाई/रोपाई:** रबी (अक्टूबर-नवंबर), खरीफ (जून-जुलाई)
+- **उन्नत किस्में:** अर्का रक्षक, अर्का सम्राट, अभिनव, हिमसोना
+- **सिंचाई:** ड्रिप सिंचाई अपनाएं जिससे फल फटने और फंगस की समस्या न हो।
+- **खाद:** 25 टन सड़ी गोबर की खाद + 60 किग्रा DAP, 50 किग्रा MOP प्रति एकड़।`;
+  }
+
+  // Aloo / Potato
+  if (q.includes('potato') || q.includes('aloo') || q.includes('aalu') || q.includes('आलू')) {
+    return `🥔 **आलू (Potato) की खेती व झुलसा प्रबंधन:**
+
+1. **पिछेती झुलसा (Late Blight) से बचाव:** मौसम में नमी या बादल होने पर तुरंत मैनकोज़ेब 75% WP @ 2.5 ग्राम/L या Cymoxanil + Mancozeb (Curzate) का छिड़काव करें।
+2. **बीज उपचार:** बोने से पहले कंदों को बोरिक एसिड (3%) या ट्राइकोडर्मा से उपचारित करें।
+3. **उर्वरक:** 50 किग्रा DAP + 40 किग्रा MOP + 70 किग्रा यूरिया प्रति एकड़। मिट्टी चढ़ाना (Earthing-up) 30-35 दिन पर अवश्य करें।`;
+  }
+
+  // Kapas / Cotton
+  if (q.includes('cotton') || q.includes('kapas') || q.includes('कपास')) {
+    return `🌱 **कपास (Cotton) और सुंडी/कीट नियंत्रण:**
+
+1. **गुलाबी सुंडी (Pink Bollworm):** इमामेक्टिन बेंजोएट 5% SG @ 0.5 ग्राम/लीटर या क्लोरेंट्रानिलिप्रोल 18.5% SC @ 0.3 मिली/लीटर का छिड़काव करें। फेरोमोन ट्रैप (Pectino Lure) @ 5 प्रति एकड़ लगाएं।
+2. **सफेद मक्खी (Whitefly):** स्पाइरोमेसिफेन 22.9% SC @ 1 मिली/लीटर पानी में स्प्रे करें।`;
+  }
+
+  // Makka / Maize / Corn
+  if (q.includes('maize') || q.includes('makka') || q.includes('corn') || q.includes('मक्का')) {
+    return `🌽 **मक्का (Maize) और फॉल आर्मीवर्म (FAW) नियंत्रण:**
+
+1. **फॉल आर्मीवर्म सुंडी:** कोराजन (Chlorantraniliprole 18.5% SC) @ 0.4 मिली/लीटर या स्पिनेटोरम 11.7% SC का छिड़काव सीधे पौधे के भोंपू (Whorl) में करें।
+2. **जैविक उपाय:** बालू (रेत) और चूने का मिश्रण (9:1) पौधे के बीच में डालें।
+3. **उर्वरक:** 50 किग्रा DAP, 30 किग्रा MOP, 80 किग्रा यूरिया प्रति एकड़।`;
+  }
+
+  // Sarson / Mustard
+  if (q.includes('mustard') || q.includes('sarson') || q.includes('सरसों')) {
+    return `🌼 **सरसों (Mustard) की खेती व माहू नियंत्रण:**
+
+1. **माहू / चेपा (Mustard Aphid):** डायमेथोएट 30% EC (रोगोर) @ 1.5 मिली/लीटर या इमिडाक्लोप्रिड 17.8% SL @ 0.5 मिली/लीटर का छिड़काव करें।
+2. **सफेद रतुआ (White Rust):** रिडोमिल एमजेड (2 ग्राम/लीटर) का स्प्रे करें।
+3. **बुवाई:** 10 से 25 अक्टूबर सबसे उत्तम समय है।`;
+  }
+
+  // Ganna / Sugarcane
+  if (q.includes('sugarcane') || q.includes('ganna') || q.includes('गन्ना')) {
+    return `🎋 **गन्ना (Sugarcane) लाल सड़न (Red Rot) व दीमक नियंत्रण:**
+
+1. **लाल सड़न (Red Rot):** बीज के टुकड़ों (Setts) को कार्बेन्डाजिम 50% WP (1 ग्राम/L) के घोल में 15 मिनट डुबोकर बोएं। रोगग्रस्त गन्ने को उखाड़कर जला दें।
+2. **दीमक / कंसुआ:** फिप्रोनिल 0.3% GR @ 10 किग्रा प्रति एकड़ कूड़ों (Furrows) में डालें।`;
+  }
+
+  // Jaivik / Organic Farming & Neem Oil
+  if (q.includes('organic') || q.includes('jaivik') || q.includes('neem') || q.includes('jeevamrit') || q.includes('जैविक') || q.includes('नीम')) {
+    return `🌿 **जैविक खेती एवं प्राकृतिक कीट निवारण:**
+
+1. **नीम तेल स्प्रे (Neem Oil):** 10,000 PPM नीम का तेल 3-5 मिली प्रति लीटर पानी में थोड़ा शैम्पू मिलाकर छिड़कें। यह माहू, सुंडी और रसचूसक कीड़ों को पूरी तरह रोकता है।
+2. **जीवामृत:** 10 किग्रा देसी गाय का गोबर + 10L गोमूत्र + 1 किग्रा गुड़ + 1 किग्रा बेसन + 200L पानी (2-3 दिन सड़ाकर सिंचाई के साथ दें)।
+3. **ट्राइकोडर्मा (Trichoderma):** फफूंद जनित रोगों (उकठा/जड़ सड़न) से बचाव के लिए 2 किग्रा ट्राइकोडर्मा को 100 किग्रा गोबर की खाद में मिलाकर खेत में डालें।`;
+  }
+
+  // Khad & Fertilizer / Urea / DAP / NPK
+  if (q.includes('fertilizer') || q.includes('khad') || q.includes('urea') || q.includes('dap') || q.includes('npk') || q.includes('खाद') || q.includes('यूरिया')) {
+    return `🌱 **संतुलित उर्वरक प्रबंधन (NPK Guide):**
+
+1. **नाइट्रोजन (N):** पौधों की वानस्पतिक बढ़वार और हरियाली के लिए (यूरिया)।
+2. **फास्फोरस (P):** मजबूत जड़ों के विकास और फूलों के लिए (DAP / SSP)।
+3. **पोटेशियम (K):** दाना भराव, चमक, वजन और रोग प्रतिरोधक क्षमता के लिए (MOP पोटाश)।
+
+💡 *अपनी मिट्टी की सटीक जांच के लिए हमारी वेबसाइट के **Digital Soil Lab** में N, P, K वैल्यू डालकर तत्काल सटीक खाद की सिफारिश प्राप्त करें!*`;
+  }
+
+  // Mitti / Soil / pH / Gypsum / Chuna
+  if (q.includes('soil') || q.includes('mitti') || q.includes('ph') || q.includes('gypsum') || q.includes('chuna') || q.includes('मिट्टी') || q.includes('क्षारीय') || q.includes('अम्लीय')) {
+    return `🧪 **मिट्टी सुधार और pH प्रबंधन:**
+
+- **आदर्श pH:** 6.5 से 7.5 (अधिकांश फसलों के लिए सर्वोत्तम)।
+- **क्षारीय मिट्टी (pH > 8.0):** मिट्टी में **जिप्सम (Gypsum)** @ 2-3 क्विंटल/एकड़ डालें या हरी खाद (ढैंचा) लगाएं।
+- **अम्लीय मिट्टी (pH < 6.0):** मिट्टी में **चूना (Agricultural Lime)** मिलाएं।
+- जैविक कार्बन बढ़ाने के लिए प्रतिवर्ष वर्मीकम्पोस्ट या सड़ी गोबर की खाद अवश्य डालें।`;
+  }
+
+  // Sarkari Yojana / Government Schemes
+  if (q.includes('scheme') || q.includes('yojana') || q.includes('pm kisan') || q.includes('kcc') || q.includes('fasal bima') || q.includes('योजना') || q.includes('सब्सिडी') || q.includes('बीमा')) {
+    return `🏛️ **प्रमुख सरकारी किसान योजनाएं:**
+
+1. **PM-KISAN:** सभी पात्र किसानों को ₹6,000 प्रति वर्ष (₹2000 की 3 किश्तों में) सीधे बैंक खाते में।
+2. **PM फसल बीमा योजना (PMFBY):** प्राकृतिक आपदाओं से फसल नुकसान पर व्यापक बीमा कवर।
+3. **किसान क्रेडिट कार्ड (KCC):** केवल 4% ब्याज दर पर ₹3 लाख तक का सस्ता कृषि ऋण।
+4. **मृदा स्वास्थ्य कार्ड (Soil Health Card):** खेत की मिट्टी की 12 पैरामीटर पर मुफ्त जांच।
+
+👉 *पूरी जानकारी और ऑनलाइन आवेदन के लिए ऊपर **Govt Schemes** सेक्शन देखें!*`;
+  }
+
+  // Drone Spraying
+  if (q.includes('drone') || q.includes('ड्रोन') || q.includes('spray') || q.includes('छिड़काव')) {
+    return `🚁 **एग्रोटेक ड्रोन स्प्रे सेवा:**
+
+- **10 गुना तेज:** 1 एकड़ में सिर्फ 10-15 मिनट में छिड़काव।
+- **90% पानी की बचत:** अल्ट्रा-लो वॉल्यूम तकनीक से केवल 10-12 लीटर पानी प्रति एकड़।
+- **सुरक्षा:** किसान का जहरीले रसायनों से सीधा संपर्क नहीं होता।
+
+👉 *अपने खेत के लिए ड्रोन बुक करने के लिए हमारे **Drone Sprayer** सेक्शन में जाकर 1 क्लिक में स्लॉट बुक करें!*`;
+  }
+
+  // Mandi & Market Prices
+  if (q.includes('mandi') || q.includes('price') || q.includes('rate') || q.includes('bhav') || q.includes('मंडी') || q.includes('भाव') || q.includes('दाम')) {
+    return `🏪 **लाइव मंडी भाव (Live Mandi Rates):**
+
+हमारे **Live Market Access** सेक्शन में मध्य प्रदेश और भारत की प्रमुख मंडियों के गेहूं, धान, सोयाबीन, चना, सरसों, प्याज, टमाटर और मक्का के न्यूनतम, अधिकतम और मॉडल भाव रियल-टाइम में उपलब्ध हैं।
+
+*ऊपर मेनू में **Live Market Price** पर क्लिक करके अपने जिले का भाव देखें!*`;
+  }
+
+  // Mausam / Weather & Sinchai
+  if (q.includes('weather') || q.includes('rain') || q.includes('barish') || q.includes('mausam') || q.includes('irrigation') || q.includes('sinchai') || q.includes('मौसम') || q.includes('बारिश') || q.includes('सिंचाई')) {
+    return `🌦️ **मौसम एवं सिंचाई सलाह:**
+
+- बारिश की संभावना होने पर कीटनाशक या खाद का छिड़काव 24 घंटे के लिए टालें।
+- हवा की गति 10 किमी/घंटा से कम होने पर ही सुबह या शाम के समय स्प्रे करें।
+- पानी बचाने के लिए ड्रिप या स्प्रिंकलर (फव्वारा) सिंचाई प्रणाली अपनाएं, जिस पर 50-70% तक सरकारी सब्सिडी उपलब्ध है।
+
+*अपने शहर का लाइव मौसम देखने के लिए **Weather** कार्ड देखें!*`;
+  }
+
+  // General Agronomy Assistant Fallback
+  return `🌿 **एग्रोबॉट कृषि सलाह:**
+
+खेती को अधिक लाभकारी बनाने के लिए:
+1. बुवाई से पहले बीज उपचार (बीजामृत या फफूंदनाशक) जरूर करें।
+2. मिट्टी परीक्षण कराकर ही DAP और यूरिया का संतुलित प्रयोग करें।
+3. कीटों की शुरुआती रोकथाम के लिए 10-15 दिन के अंतराल पर 10,000 PPM नीम तेल का छिड़काव करें।
+
+*आप किसी विशेष फसल (गेहूं, धान, टमाटर, आलू, मक्का, सरसों आदि), खाद की मात्रा या किसी कीट/रोग के बारे में पूछ सकते हैं!*`;
 }
 
 // Soil Report Scanning & Camera Logic

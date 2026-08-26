@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=2.8.0">
+    <link rel="stylesheet" href="style.css?v=2.9.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -384,46 +384,21 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">AI Pest & Disease Diagnosis</h2>
-                <p class="section-subtitle">Identify infected crops accurately using Google Gemini AI, ChatGPT Copy-Paste, or our ICAR Plant Pathology Database.</p>
+                <p class="section-subtitle">Instant AI Leaf Diagnostic Scanner, ICAR Pathology Database & Treatment Advisory for Indian Farmers (100% Free & No Setup Required).</p>
             </div>
 
-            <!-- Diagnosis Mode Switcher -->
+                        <!-- Diagnosis Mode Switcher -->
             <div class="pest-modes-nav" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; flex-wrap: wrap;">
                 <button type="button" class="pest-tab-btn active" id="tabBtnPhoto" onclick="switchPestMode('photo')" style="padding: 10px 20px; border-radius: 30px; border: 1.5px solid #22c55e; background: #22c55e; color: white; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-camera"></i> 1. Image Scan / Gemini Vision
+                    <i class="fa-solid fa-camera"></i> 1. Smart AI Leaf Scanner
                 </button>
                 <button type="button" class="pest-tab-btn" id="tabBtnChatGpt" onclick="switchPestMode('chatgpt')" style="padding: 10px 20px; border-radius: 30px; border: 1.5px solid #cbd5e1; background: white; color: #334155; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-paste"></i> 2. Paste from ChatGPT / Gemini
+                    <i class="fa-solid fa-paste"></i> 2. Paste from ChatGPT / AI
                 </button>
                 <button type="button" class="pest-tab-btn" id="tabBtnDatabase" onclick="switchPestMode('database')" style="padding: 10px 20px; border-radius: 30px; border: 1.5px solid #cbd5e1; background: white; color: #334155; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-book-medical"></i> 3. Select Crop & Disease
-                </button>
-                <button type="button" onclick="openApiKeyModal()" style="padding: 10px 18px; border-radius: 30px; border: 1.5px dashed #f59e0b; background: #fffbeb; color: #b45309; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 6px;" title="Configure Google Gemini Free API Key">
-                    <i class="fa-solid fa-key"></i> <span id="apiKeyStatusLabel">Set Gemini Key</span>
+                    <i class="fa-solid fa-book-medical"></i> 3. ICAR Disease Guide (50+ Crops)
                 </button>
             </div>
-
-            <!-- API Key Configuration Modal -->
-            <div id="apiKeyModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 99999; justify-content: center; align-items: center; padding: 20px;">
-                <div style="background: white; border-radius: 20px; max-width: 500px; width: 100%; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: left; position: relative;">
-                    <button onclick="closeApiKeyModal()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
-                    <h3 style="color: #166534; font-size: 1.4rem; margin-bottom: 10px;"><i class="fa-solid fa-key"></i> Google Gemini API Key</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Add your 100% free Google Gemini API key to enable live AI image scanning and instant agronomist advisory.</p>
-                    
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">Gemini API Key</label>
-                        <input type="password" id="inputGeminiApiKey" placeholder="AIzaSy..." style="width: 100%; padding: 12px 15px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: monospace; font-size: 0.95rem;">
-                    </div>
-                    
-                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px; font-size: 0.85rem; color: #166534; margin-bottom: 20px;">
-                        <i class="fa-solid fa-circle-info"></i> Don't have a key? Get one in 10 seconds for free from <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #15803d; font-weight: 700; text-decoration: underline;">Google AI Studio</a>.
-                    </div>
-                    
-                    <div style="display: flex; gap: 10px;">
-                        <button onclick="saveGeminiApiKey()" class="btn-primary" style="flex: 1; height: 44px; border-radius: 8px;"><i class="fa-solid fa-check"></i> Save Key</button>
-                        <button onclick="clearGeminiApiKey()" class="btn-secondary" style="flex: 1; height: 44px; border-radius: 8px; color: #ef4444;"><i class="fa-solid fa-trash"></i> Remove</button>
-                    </div>
-                </div>
             </div>
 
             <div class="pest-mgmt-container">
@@ -1092,7 +1067,7 @@
         </button>
     </div>
 
-    <script src="script.js?v=2.8.0"></script>
+    <script src="script.js?v=2.9.0"></script>
 </body>
 
 </html>
