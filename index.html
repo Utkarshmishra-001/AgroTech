@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=3.2.0">
+    <link rel="stylesheet" href="style.css?v=3.3.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -690,13 +690,11 @@
                         <button type="submit" class="btn-primary" style="width: 100%; height: 50px; margin-top: 20px; font-size: 1.1rem;"><i class="fa-solid fa-right-to-bracket"></i> Secure Login</button>
                     </form>
 
-                    <!-- Quick 1-Click Demo Login Pills -->
-                    <div style="margin-top: 20px; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; text-align: center;">
-                        <div style="font-size: 0.8rem; color: #64748b; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">⚡ 1-Click Instant Login (Evaluation):</div>
-                        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-                            <button type="button" onclick="quickFillLogin('demo@gmail.com', 'demo123')" style="padding: 6px 14px; background: #dcfce7; color: #15803d; border: 1px solid #86efac; border-radius: 20px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s;"><i class="fa-solid fa-wheat-awn"></i> Demo Farmer</button>
-                            <button type="button" onclick="quickFillLogin('umishra.abn@gmail.com', '10042001')" style="padding: 6px 14px; background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; border-radius: 20px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s;"><i class="fa-solid fa-user"></i> Utkarsh Mishra</button>
-                        </div>
+                    <!-- Clean 1-Click Demo Login -->
+                    <div style="margin-top: 18px; text-align: center;">
+                        <button type="button" onclick="loginAsDemoFarmer()" style="width: 100%; height: 46px; background: #f0fdf4; color: #166534; border: 1.5px dashed #22c55e; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-seedling" style="color: #22c55e;"></i> Try with Demo Farmer Account (1-Click)
+                        </button>
                     </div>
 
                     <div class="auth-switch" style="margin-top: 20px; font-size: 0.95rem;">
@@ -1101,7 +1099,7 @@
         </button>
     </div>
 
-    <script src="script.js?v=3.2.0"></script>
+    <script src="script.js?v=3.3.0"></script>
 </body>
 
 </html>

@@ -3678,31 +3678,50 @@ if (registerForm) {
     });
 }
 
+window.loginAsDemoFarmer = function() {
+    const demoUser = {
+        name: "Kisan Demo",
+        email: "demo@gmail.com",
+        mobile: "9876543210",
+        aadhar: "123456789012",
+        address: "Indore, Madhya Pradesh"
+    };
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(demoUser));
+    applyAccessControl();
+    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+};
+
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-        const pwd = document.getElementById('loginPassword').value.trim();
+        const emailInput = document.getElementById('loginEmail');
+        const pwdInput = document.getElementById('loginPassword');
+        
+        const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+        const pwd = pwdInput ? pwdInput.value.trim() : '';
 
-        const btn = e.target.querySelector('button');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Logging in...';
-        btn.disabled = true;
+        if (!email || !pwd) {
+            alert("Please enter your email and password.");
+            return;
+        }
 
         // 1. Direct Admin Access via Main Form
         if (email === 'admin@gmail.com' && pwd === 'admin123') {
             localStorage.setItem(CURRENT_USER_KEY, JSON.stringify({ name: 'Admin', email: 'admin@gmail.com' }));
             loginForm.reset();
-            btn.innerHTML = originalText;
-            btn.disabled = false;
             applyAccessControl();
             return;
         }
 
-        // 2. Instant Local-First Verification (0ms latency, works offline & online)
+        // 2. Demo shortcut
+        if (email === 'demo@gmail.com' && pwd === 'demo123') {
+            window.loginAsDemoFarmer();
+            return;
+        }
+
+        // 3. Instant Local & Persistent Accounts Check (0ms latency)
         let localUsers = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
-        // Also combine with seed accounts
         let allKnownUsers = [...localUsers, ...SEED_REGISTERED_USERS];
         const foundUser = allKnownUsers.find(u => u && u.email && u.email.toLowerCase() === email && String(u.pwd).trim() === pwd);
 
@@ -3711,18 +3730,16 @@ if (loginForm) {
             delete safeUser.pwd;
             localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(safeUser));
             loginForm.reset();
-            btn.innerHTML = originalText;
-            btn.disabled = false;
             applyAccessControl();
             setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
             return;
         }
 
-        // 3. Fast Backend Cloud API check (with 3-second timeout)
+        // 4. Quick Backend check with 3s timeout
         let userObj = null;
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 3500);
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
 
             const response = await fetch(`${BACKEND_URL}/api/login`, {
                 method: 'POST',
@@ -3737,11 +3754,8 @@ if (loginForm) {
                 userObj = result.user;
             }
         } catch (err) {
-            console.log("Backend offline or timed out, login checked locally.");
+            console.log("Standalone mode active.");
         }
-
-        btn.innerHTML = originalText;
-        btn.disabled = false;
 
         if (userObj) {
             localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(userObj));
@@ -3749,23 +3763,10 @@ if (loginForm) {
             applyAccessControl();
             setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
         } else {
-            alert("Login Failed: Incorrect email or password.\\n\\nPlease check your credentials or register a new account.\\n\\nDemo Account:\\nEmail: demo@gmail.com\\nPassword: demo123");
+            alert("Login Failed: Incorrect email or password.\\n\\nPlease check your credentials or click 'Try with Demo Farmer Account (1-Click)' below.");
         }
     });
 }
-
-window.quickFillLogin = function(email, pwd) {
-    const emailField = document.getElementById('loginEmail');
-    const pwdField = document.getElementById('loginPassword');
-    if (emailField) emailField.value = email;
-    if (pwdField) pwdField.value = pwd;
-    
-    // Auto-trigger submit
-    const form = document.getElementById('loginForm');
-    if (form) {
-        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-    }
-};
 
 function handleAdminLogin() {
     const emailInput = document.getElementById('admUserKey') || document.getElementById('adminEmail');
