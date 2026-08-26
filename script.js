@@ -4141,6 +4141,77 @@ function deleteAdminScheme(id) {
 }
 
 // === USER MANAGEMENT LOGIC ===
+window.viewAdminUserProfile = async function(email) {
+    const users = await getAllAdminUsers();
+    const u = users.find(x => x.email.toLowerCase() === email.toLowerCase());
+    if (!u) return alert("Farmer profile not found.");
+
+    const modal = document.getElementById('adminUserModal');
+    const modalBody = document.getElementById('adminUserModalBody');
+    if (!modal || !modalBody) return;
+
+    const rawMobile = (u.mobile || '').replace(/\D/g, '');
+    const waLink = rawMobile.length >= 10 ? `https://wa.me/91${rawMobile.slice(-10)}` : null;
+
+    modalBody.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #15803d, #22c55e); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.6rem; font-weight: 700; flex-shrink: 0; box-shadow: 0 4px 10px rgba(22, 101, 52, 0.2);">
+                ${(u.name || 'F')[0].toUpperCase()}
+            </div>
+            <div>
+                <h3 style="margin: 0 0 4px 0; color: #1e293b; font-size: 1.3rem;">${u.name || 'Farmer'}</h3>
+                <span style="display: inline-flex; align-items: center; gap: 5px; background: #dcfce7; color: #15803d; font-size: 0.8rem; font-weight: 700; padding: 2px 10px; border-radius: 20px;">
+                    <i class="fa-solid fa-circle-check"></i> Verified Registered Farmer
+                </span>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 24px;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                <i class="fa-solid fa-envelope" style="color: #3b82f6; font-size: 1.1rem; width: 20px;"></i>
+                <div>
+                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Email Address</div>
+                    <a href="mailto:${u.email}" style="color: #1e293b; font-weight: 600; font-size: 0.95rem; text-decoration: none;">${u.email}</a>
+                </div>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                <i class="fa-solid fa-phone" style="color: #16a34a; font-size: 1.1rem; width: 20px;"></i>
+                <div style="flex: 1;">
+                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Mobile Number</div>
+                    <div style="color: #1e293b; font-weight: 600; font-size: 0.95rem;">${u.mobile || 'N/A'}</div>
+                </div>
+                ${waLink ? `<a href="${waLink}" target="_blank" style="padding: 6px 12px; background: #25d366; color: white; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 5px;"><i class="fa-brands fa-whatsapp"></i> Chat</a>` : ''}
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                <i class="fa-solid fa-address-card" style="color: #8b5cf6; font-size: 1.1rem; width: 20px;"></i>
+                <div>
+                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Aadhar Number</div>
+                    <div style="font-family: monospace; color: #1e293b; font-weight: 700; font-size: 1rem; letter-spacing: 1px;">${u.aadhar || 'N/A'}</div>
+                </div>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; display: flex; align-items: flex-start; gap: 12px;">
+                <i class="fa-solid fa-location-dot" style="color: #ef4444; font-size: 1.1rem; width: 20px; margin-top: 3px;"></i>
+                <div>
+                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Registered Farm Address</div>
+                    <div style="color: #334155; font-size: 0.95rem; line-height: 1.4; margin-top: 2px;">${u.address || 'N/A'}</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button onclick="document.getElementById('adminUserModal').style.display='none'" style="flex: 1; height: 44px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s;">Close</button>
+            <button onclick="document.getElementById('adminUserModal').style.display='none'; switchAdminTab(document.querySelector('#adminTabs .tab-btn:nth-child(3)'), 'tab-alerts'); const sel = document.getElementById('adminAlertUser'); if(sel) sel.value='${u.email}';" style="flex: 1.2; height: 44px; background: #166534; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fa-brands fa-whatsapp"></i> Send Alert
+            </button>
+        </div>
+    `;
+
+    modal.style.display = 'block';
+};
+
 async function renderAdminUsers() {
     const tbody = document.getElementById('adminUsersBody');
     if(!tbody) return;
@@ -4166,8 +4237,6 @@ async function renderAdminUsers() {
     
     tbody.innerHTML = '';
     users.forEach((u, idx) => {
-        const safeAddress = (u.address || 'N/A').replace(/'/g, "\'").replace(/"/g, "&quot;").replace(/\n/g, " ");
-        const safeName = (u.name || 'N/A').replace(/'/g, "\'").replace(/"/g, "&quot;");
         const safeMobile = u.mobile || 'N/A';
         const safeAadhar = u.aadhar || 'N/A';
         
@@ -4180,7 +4249,7 @@ async function renderAdminUsers() {
                 <td style="max-width: 240px; white-space: normal; line-height: 1.4; color: #475569; font-size: 0.9rem;">${u.address || 'N/A'}</td>
                 <td>
                     <div style="display: flex; gap: 8px; align-items: center;">
-                        <button onclick="alert('FULL FARMER PROFILE:\n\nName: ${safeName}\nEmail: ${u.email}\nMobile: ${safeMobile}\nAadhar: ${safeAadhar}\n\nRegistered Farm Address:\n${safeAddress}')" style="padding: 6px 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;" title="View Profile"><i class="fa-solid fa-eye"></i> View</button>
+                        <button onclick="viewAdminUserProfile('${u.email}')" style="padding: 6px 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;" title="View Profile"><i class="fa-solid fa-eye"></i> View</button>
                         <button onclick="deleteAdminUser('${u.email}')" style="padding: 6px 10px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;" title="Delete User"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </td>

@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=2.7.0">
+    <link rel="stylesheet" href="style.css?v=2.8.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -209,6 +209,21 @@
             <span class="close-modal" onclick="document.getElementById('adminSoilModal').style.display='none'">&times;</span>
             <div class="modal-body" id="adminSoilModalBody">
                 <!-- Details will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin User Profile Modal -->
+    <div id="adminUserModal" class="modal">
+        <div class="modal-content" style="max-width: 540px; border-radius: 20px; overflow: hidden; padding: 0; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+            <div style="background: linear-gradient(135deg, #166534, #22c55e); color: white; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; color: white;">
+                    <i class="fa-solid fa-id-card"></i> Farmer Profile Details
+                </h3>
+                <span class="close-modal" onclick="document.getElementById('adminUserModal').style.display='none'" style="color: white; font-size: 1.8rem; cursor: pointer; line-height: 1;">&times;</span>
+            </div>
+            <div class="modal-body" id="adminUserModalBody" style="padding: 24px;">
+                <!-- Farmer profile details injected here -->
             </div>
         </div>
     </div>
@@ -1077,7 +1092,7 @@
         </button>
     </div>
 
-    <script src="script.js?v=2.7.0"></script>
+    <script src="script.js?v=2.8.0"></script>
 </body>
 
 </html>
