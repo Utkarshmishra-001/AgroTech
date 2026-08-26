@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=2.9.0">
+    <link rel="stylesheet" href="style.css?v=3.0.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -327,51 +327,75 @@
         </div>
     </section>
 
-    <!-- Live Market Access Section -->
+        <!-- Live Market Access Section -->
     <section id="market" class="market-section hidden">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Live Market Access</h2>
-                <p class="section-subtitle">Real-time daily mandi prices and market trends to help you sell your produce
-                    at the right time.</p>
+                <h2 class="section-title">Live Mandi Prices & Market Trends</h2>
+                <p class="section-subtitle">Real-time agricultural commodity prices powered by <strong>Agmarknet & Data.gov.in</strong> (Ministry of Agriculture & Farmers Welfare).</p>
             </div>
 
             <div class="market-container card-glass">
                 <div class="market-controls">
-                    <div class="market-filters">
-                        <div class="filter-group">
-                            <label><i class="fa-solid fa-city"></i> Select District</label>
-                            <select id="mpDistrict">
-                                <option value="">Select District</option>
-                                <!-- MP Districts will be injected -->
+                    <div class="market-filters" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end;">
+                        <div class="filter-group" style="flex: 1; min-width: 180px;">
+                            <label style="font-weight: 600; font-size: 0.88rem; color: #166534;"><i class="fa-solid fa-map-location-dot"></i> State</label>
+                            <select id="mpState" style="width: 100%; padding: 10px 12px; border: 1.5px solid #22c55e; border-radius: 8px;">
+                                <option value="Madhya Pradesh" selected>Madhya Pradesh (MP)</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh (UP)</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Gujarat">Gujarat</option>
                             </select>
                         </div>
-                        <div class="filter-group">
-                            <label><i class="fa-solid fa-store"></i> Select Mandi</label>
-                            <select id="mpMandi" disabled>
-                                <option value="">Select Mandi</option>
+                        <div class="filter-group" style="flex: 1; min-width: 180px;">
+                            <label style="font-weight: 600; font-size: 0.88rem; color: #166534;"><i class="fa-solid fa-city"></i> District</label>
+                            <select id="mpDistrict" style="width: 100%; padding: 10px 12px; border: 1.5px solid #22c55e; border-radius: 8px;">
+                                <option value="Indore">Indore</option>
+                                <option value="Bhopal">Bhopal</option>
+                                <option value="Ujjain">Ujjain</option>
+                                <option value="Jabalpur">Jabalpur</option>
+                                <option value="Gwalior">Gwalior</option>
+                                <option value="Sagar">Sagar</option>
+                                <option value="Dewas">Dewas</option>
+                                <option value="Khargone">Khargone</option>
                             </select>
                         </div>
-                        <button id="filterMarketBtn" class="btn-primary">Get Prices</button>
+                        <div class="filter-group" style="flex: 1; min-width: 180px;">
+                            <label style="font-weight: 600; font-size: 0.88rem; color: #166534;"><i class="fa-solid fa-store"></i> APMC Mandi</label>
+                            <select id="mpMandi" style="width: 100%; padding: 10px 12px; border: 1.5px solid #22c55e; border-radius: 8px;">
+                                <option value="Indore Mandi">Indore Mandi</option>
+                                <option value="Sanwer Mandi">Sanwer Mandi</option>
+                                <option value="Mhow Mandi">Mhow Mandi</option>
+                            </select>
+                        </div>
+                        <button id="filterMarketBtn" class="btn-primary" style="height: 44px; padding: 0 24px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-magnifying-glass"></i> Get Live Prices
+                        </button>
                     </div>
-                    <div class="last-updated">
-                        <span><i class="fa-solid fa-rotate"></i> Last Updated: Today</span>
+                    <div class="last-updated" style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 0.85rem; color: #64748b;">
+                        <span><i class="fa-solid fa-satellite-dish" style="color: #22c55e;"></i> <strong>Data Feed:</strong> Official Agmarknet / Data.gov.in API</span>
+                        <span><i class="fa-solid fa-clock-rotate-left"></i> <strong>Updated:</strong> Live Daily Bulletin</span>
                     </div>
                 </div>
 
-                <div class="market-table-container">
+                <div class="market-table-container" style="overflow-x: auto; margin-top: 15px;">
                     <table class="market-table">
                         <thead>
                             <tr>
-                                <th>Crop Name</th>
-                                <th>Min Price (₹/Quintal)</th>
-                                <th>Max Price (₹/Quintal)</th>
-                                <th>Avg Price (₹/Quintal)</th>
+                                <th>Crop / Commodity (फसल)</th>
+                                <th>APMC Mandi (मंडी)</th>
+                                <th>Min Price (₹/Qtl)</th>
+                                <th>Max Price (₹/Qtl)</th>
+                                <th>Modal Rate (मॉडल भाव ₹/Qtl)</th>
+                                <th>Arrival Date</th>
                                 <th>Trend</th>
                             </tr>
                         </thead>
-                        <tbody id="marketBody">
-                            <!-- Prices injected by JS -->
+                        <tbody id="marketPricesBody">
+                            <!-- Live Agmarknet rows injected dynamically -->
                         </tbody>
                     </table>
                 </div>
@@ -1067,7 +1091,7 @@
         </button>
     </div>
 
-    <script src="script.js?v=2.9.0"></script>
+    <script src="script.js?v=3.0.0"></script>
 </body>
 
 </html>

@@ -3020,7 +3020,7 @@ populateCropSelect();
 renderHistory();
 renderPestHistory();
 setCurrentDate();
-populateMarketFilters();
+initAgmarknetControls();
 renderSchemes();
 populateDroneCrops();
 initWeatherAutoDetection();
