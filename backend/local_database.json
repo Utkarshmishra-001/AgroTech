@@ -66,6 +66,38 @@
             "id": 1777890565562,
             "email": "umishra.abn@gmail.com",
             "_id": "1"
+        },
+        {
+            "_id": "pest_1",
+            "id": 101,
+            "email": "demo@gmail.com",
+            "reportType": "pest",
+            "crop": "Wheat",
+            "disease": "Yellow Rust (Puccinia striiformis)",
+            "severity": "High Risk",
+            "info": "Yellow orange fungal urediniospores formed in linear stripes on leaves.",
+            "date": "26/08/2026",
+            "solutions": [
+                "Spray Propiconazole 25% EC (Tilt) @ 1 ml/L water (500 ml/ha).",
+                "Avoid excess nitrogen fertilizer to prevent spore multiplication.",
+                "Apply 10,000 PPM Neem Oil spray for early prevention."
+            ]
+        },
+        {
+            "_id": "pest_2",
+            "id": 102,
+            "email": "demo@gmail.com",
+            "reportType": "pest",
+            "crop": "Tomato",
+            "disease": "Tomato Leaf Curl Virus (ToLCV)",
+            "severity": "Moderate",
+            "info": "Upward curling and puckering of leaves with vein clearing caused by Whitefly vector.",
+            "date": "25/08/2026",
+            "solutions": [
+                "Install Yellow Sticky Traps @ 10 per acre.",
+                "Spray Acetamiprid 20% SP @ 0.5 g/L or Imidacloprid 17.8% SL.",
+                "Apply 5 ml/L Neem Oil to prevent whitefly infestation."
+            ]
         }
     ],
     "schemes": [],

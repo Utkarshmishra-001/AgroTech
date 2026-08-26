@@ -2007,70 +2007,59 @@ saveReportBtn.addEventListener('click', async () => {
   renderHistory();
 });
 
+
 async function renderHistory() {
+  if (!savedReportsHistory || !reportsGrid) return;
+  
+  let reports = JSON.parse(localStorage.getItem('agrotech_reports') || '[]');
   const authUserStr = localStorage.getItem(CURRENT_USER_KEY);
-  const authUser = authUserStr ? JSON.parse(authUserStr) : null;
+  const authUser = authUserStr ? JSON.parse(authUserStr) : { email: 'demo@gmail.com' };
 
-  try {
-    let backendReports = [];
-    if (authUser) {
-      try {
-        const response = await fetch(`${BACKEND_URL}/api/user-reports/${authUser.email}`);
-        if (response.ok) {
-            backendReports = await response.json();
+  // If local storage is empty (e.g. cache cleared), automatically restore from cloud database
+  if (reports.length === 0) {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/user-reports/${authUser.email}`);
+      if (response.ok) {
+        const cloudReports = await response.json();
+        const soilCloud = cloudReports.filter(r => !r.reportType || r.reportType === 'soil');
+        if (soilCloud.length > 0) {
+          reports = soilCloud;
+          localStorage.setItem('agrotech_reports', JSON.stringify(reports));
         }
-      } catch (e) {
-        console.warn("Backend fetch failed, using local reports");
       }
+    } catch (e) {
+      console.log("Offline mode: could not restore soil history from cloud.");
     }
-    
-    // Merge with local for instant feedback, then deduplicate by id
-    const localReports = JSON.parse(localStorage.getItem('agrotech_reports') || '[]');
-    const merged = [...localReports, ...backendReports];
-    const uniqueReports = [];
-    const seenIds = new Set();
-    
-    merged.forEach(r => {
-        const id = r.id || r._id;
-        if (!seenIds.has(id)) {
-            seenIds.add(id);
-            uniqueReports.push(r);
-        }
-    });
-
-    if (uniqueReports.length === 0) {
-      savedReportsHistory.classList.add('hidden');
-      return;
-    }
-
-    savedReportsHistory.classList.remove('hidden');
-    reportsGrid.innerHTML = '';
-
-    uniqueReports.forEach(report => {
-      const card = document.createElement('div');
-      card.className = 'history-card';
-      const reportId = report.id || report._id;
-      card.innerHTML = `
-        <button class="btn-remove" onclick="removeReport('${reportId}')"><i class="fa-solid fa-trash-can"></i></button>
-        <span class="date">${report.date}</span>
-        <span class="crop">${report.crop}</span>
-        <div class="parameters" style="display: flex; flex-wrap: wrap; gap: 5px;">
-          <span class="param-badge">N: ${report.params.n}</span>
-          <span class="param-badge">P: ${report.params.p}</span>
-          <span class="param-badge">K: ${report.params.k}</span>
-          <span class="param-badge">pH: ${report.params.ph}</span>
-          ${report.params.temperature ? `<span class="param-badge">Temp: ${report.params.temperature}°C</span>` : ''}
-          ${report.params.humidity ? `<span class="param-badge">Humidity: ${report.params.humidity}%</span>` : ''}
-          ${report.params.rainfall ? `<span class="param-badge">Rain: ${report.params.rainfall}mm</span>` : ''}
-        </div>
-        <button class="btn-card" style="padding: 5px 15px; font-size: 0.75rem;" onclick="viewSavedReport('${reportId}')">View Analysis</button>
-      `;
-      reportsGrid.appendChild(card);
-    });
-  } catch (err) {
-    console.warn("Error fetching history from backend:", err);
   }
+
+  if (reports.length === 0) {
+    savedReportsHistory.classList.add('hidden');
+    return;
+  }
+
+  savedReportsHistory.classList.remove('hidden');
+  reportsGrid.innerHTML = '';
+
+  reports.forEach(report => {
+    const card = document.createElement('div');
+    card.className = 'history-card';
+    const reportId = report.id || report._id || Math.random().toString(36).substr(2, 9);
+    card.innerHTML = `
+      <button class="btn-remove" onclick="removeReport('${reportId}')"><i class="fa-solid fa-trash-can"></i></button>
+      <span class="date">${report.date || '26/08/2026'}</span>
+      <span class="crop">${report.crop || 'Soil Test'}</span>
+      <div class="parameters" style="display: flex; flex-wrap: wrap; gap: 5px;">
+        <span class="param-badge">N: ${report.params ? report.params.n : '--'}</span>
+        <span class="param-badge">P: ${report.params ? report.params.p : '--'}</span>
+        <span class="param-badge">K: ${report.params ? report.params.k : '--'}</span>
+        <span class="param-badge">pH: ${report.params ? report.params.ph : '--'}</span>
+      </div>
+      <button class="btn-card" style="padding: 5px 15px; font-size: 0.75rem;" onclick="viewSavedReport('${reportId}')">View Analysis</button>
+    `;
+    reportsGrid.appendChild(card);
+  });
 }
+
 
 window.removeReport = async (id) => {
   if (!confirm('Are you sure you want to delete this report?')) return;
@@ -2876,9 +2865,29 @@ if (savePestReportBtn) {
   });
 }
 
-function renderPestHistory() {
+
+async function renderPestHistory() {
   if (!savedPestReportsHistory || !pestReportsGrid) return;
-  const reports = JSON.parse(localStorage.getItem('agrotech_pest_saved_reports') || '[]');
+  let reports = JSON.parse(localStorage.getItem('agrotech_pest_saved_reports') || '[]');
+  const authUserStr = localStorage.getItem(CURRENT_USER_KEY);
+  const authUser = authUserStr ? JSON.parse(authUserStr) : { email: 'demo@gmail.com' };
+
+  // If local storage is empty (e.g. cache cleared), restore from cloud database
+  if (reports.length === 0) {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/user-reports/${authUser.email}`);
+      if (response.ok) {
+        const cloudReports = await response.json();
+        const pestCloud = cloudReports.filter(r => r.reportType === 'pest');
+        if (pestCloud.length > 0) {
+          reports = pestCloud;
+          localStorage.setItem('agrotech_pest_saved_reports', JSON.stringify(reports));
+        }
+      }
+    } catch (e) {
+      console.log("Offline mode: could not restore pest history from cloud.");
+    }
+  }
 
   if (reports.length === 0) {
     savedPestReportsHistory.classList.add('hidden');
@@ -2891,19 +2900,21 @@ function renderPestHistory() {
   reports.forEach(report => {
     const card = document.createElement('div');
     card.className = 'history-card';
+    const reportId = report.id || report._id;
     card.innerHTML = `
-      <button class="btn-remove" onclick="removePestReport(${report.id})"><i class="fa-solid fa-trash-can"></i></button>
-      <div style="width: 100%; height: 120px; border-radius: 8px; margin-bottom: 10px; background-image: url('${report.image}'); background-size: cover; background-position: center;"></div>
-      <span class="date">${report.date}</span>
-      <span class="crop" style="font-size: 1.1rem; color: #b91c1c;">${report.disease}</span>
+      <button class="btn-remove" onclick="removePestReport('${reportId}')"><i class="fa-solid fa-trash-can"></i></button>
+      <div style="width: 100%; height: 100px; border-radius: 8px; margin-bottom: 10px; background: #f0fdf4; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: #166534;"><i class="fa-solid fa-leaf"></i></div>
+      <span class="date">${report.date || '26/08/2026'}</span>
+      <span class="crop" style="font-size: 1.05rem; color: #b91c1c;">${report.disease}</span>
       <div class="parameters" style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px;">
         <span class="param-badge" style="background: #fee2e2; color: #ef4444;">Severity: ${report.severity}</span>
       </div>
-      <button class="btn-card" style="padding: 5px 15px; font-size: 0.75rem;" onclick="viewSavedPestReport(${report.id})">View Diagnosis</button>
+      <button class="btn-card" style="padding: 5px 15px; font-size: 0.75rem;" onclick="viewSavedPestReport('${reportId}')">View Diagnosis</button>
     `;
     pestReportsGrid.appendChild(card);
   });
 }
+
 
 window.removePestReport = (id) => {
   let reports = JSON.parse(localStorage.getItem('agrotech_pest_saved_reports') || '[]');
