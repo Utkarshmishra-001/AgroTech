@@ -1,8 +1,80 @@
-
-
 // ============================================================================
-// 🌐 AGROTECH UNIFIED DUAL-ENGINE: LOCALSTORAGE + BACKEND CLOUD DATABASE MERGE
+// 🌐 AGROTECH CORE CONFIGURATION & CONSTANTS (Top-level declarations)
 // ============================================================================
+const RUNTIME_USERS_KEY = 'agrotech_users';
+const CURRENT_USER_KEY = 'agrotech_auth_user';
+const CROP_DB_KEY = 'agrotech_crops';
+const SCHEMES_DB_KEY = 'agrotech_schemes';
+const PEST_REPORTS_KEY = 'agrotech_pest_reports';
+const DRONE_BOOKINGS_KEY = 'agrotech_drone_bookings';
+const SOIL_REPORTS_KEY = 'agrotech_reports';
+
+const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? "http://127.0.0.1:8005"
+    : "https://agrotech-d4fp.onrender.com";
+
+// Auto-seed and guarantee persistent farmer accounts across laptop reboots & storage resets
+const SEED_REGISTERED_USERS = [
+    {
+        "name": "Kisan Demo",
+        "email": "demo@gmail.com",
+        "mobile": "9876543210",
+        "aadhar": "123456789012",
+        "address": "Indore, Madhya Pradesh",
+        "pwd": "demo123"
+    },
+    {
+        "name": "Utkarsh Mishra",
+        "email": "umishra.abn@gmail.com",
+        "mobile": "8765552392",
+        "aadhar": "573428266586",
+        "address": "Neel Godam, Dallapur Nijampur, Pahitipur",
+        "pwd": "10042001"
+    },
+    {
+        "name": "Ritesh Mishra",
+        "email": "ritesh@gmail.com",
+        "mobile": "9532816644",
+        "aadhar": "547246548534",
+        "address": "Gorakhpur, Uttar Pradesh",
+        "pwd": "12051999"
+    },
+    {
+        "name": "Kumkum Vishwakarma",
+        "email": "kumkumvishwakarma1445@gmail.com",
+        "mobile": "7223892849",
+        "aadhar": "462495756080",
+        "address": "Shankargarh, Khajuraho,MP",
+        "pwd": "26082003"
+    }
+];
+
+function initPersistentAccounts() {
+    try {
+        let users = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
+        let updated = false;
+        SEED_REGISTERED_USERS.forEach(seed => {
+            const existingIdx = users.findIndex(u => u.email.toLowerCase() === seed.email.toLowerCase());
+            if (existingIdx === -1) {
+                users.push(seed);
+                updated = true;
+            } else {
+                // Ensure password and details are fully preserved
+                if (!users[existingIdx].pwd) {
+                    users[existingIdx].pwd = seed.pwd;
+                    updated = true;
+                }
+            }
+        });
+        if (updated || !localStorage.getItem(RUNTIME_USERS_KEY)) {
+            localStorage.setItem(RUNTIME_USERS_KEY, JSON.stringify(users));
+        }
+    } catch(e) {
+        console.warn("Storage init warning:", e);
+    }
+}
+initPersistentAccounts();
+
 
 // 1. Unified Crops (Built-in + Admin LocalStorage + Backend Cloud)
 async function getAllMergedAdminCrops() {
@@ -820,36 +892,6 @@ function displayPestResult(data) {
     resultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-
-// Auto-seed Demo Farmer and Admin into LocalStorage if not exists
-(function initDefaultAccounts() {
-    try {
-        let users = JSON.parse(localStorage.getItem(RUNTIME_USERS_KEY)) || [];
-        const demoUser = {
-            name: "Kisan Demo",
-            email: "demo@gmail.com",
-            mobile: "9876543210",
-            aadhar: "123456789012",
-            address: "Indore, Madhya Pradesh",
-            pwd: "demo123"
-        };
-        if (!users.some(u => u.email === demoUser.email)) {
-            users.push(demoUser);
-            localStorage.setItem(RUNTIME_USERS_KEY, JSON.stringify(users));
-        }
-    } catch(e) {
-        console.warn("Storage init warning:", e);
-    }
-})();
-
-const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? "http://127.0.0.1:8005"
-    : "https://agrotech-d4fp.onrender.com";
-
-const RUNTIME_USERS_KEY = 'agrotech_users';
-const CURRENT_USER_KEY = 'agrotech_auth_user';
-const CROP_DB_KEY = 'agrotech_crops';
-const SCHEMES_DB_KEY = 'agrotech_schemes';
 
 const crops = [
   {
