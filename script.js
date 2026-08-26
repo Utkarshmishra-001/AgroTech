@@ -9,9 +9,12 @@ const PEST_REPORTS_KEY = 'agrotech_pest_reports';
 const DRONE_BOOKINGS_KEY = 'agrotech_drone_bookings';
 const SOIL_REPORTS_KEY = 'agrotech_reports';
 
-const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? "http://127.0.0.1:8005"
-    : "https://agrotech-d4fp.onrender.com";
+const BACKEND_URL = (() => {
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') return "http://127.0.0.1:8005";
+    if (host.includes('vercel.app')) return "";
+    return "https://agrotech-d4fp.onrender.com";
+})();
 
 // Auto-seed and guarantee persistent farmer accounts across laptop reboots & storage resets
 const SEED_REGISTERED_USERS = [
